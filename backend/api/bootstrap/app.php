@@ -3,6 +3,7 @@
 use App\Http\Middleware\IsolateTenant;
 use App\Http\Middleware\RequirePermission;
 use App\Http\Middleware\RequirePlatformAdmin;
+use App\Http\Middleware\RequireTwoFactor;
 use App\Http\Middleware\ResolveInstitution;
 use App\Http\Middleware\SetLocale;
 use App\Support\ApiResponse;
@@ -33,6 +34,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'institution' => ResolveInstitution::class,
             'permission' => RequirePermission::class,
             'platform.admin' => RequirePlatformAdmin::class,
+            'mfa' => RequireTwoFactor::class,
         ]);
 
         // Le contexte institutionnel doit exister avant la résolution des modèles de route,

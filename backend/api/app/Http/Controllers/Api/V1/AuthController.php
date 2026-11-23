@@ -10,10 +10,12 @@ use App\Models\Institution;
 use App\Models\LoginHistory;
 use App\Models\User;
 use App\Services\AuditLogger;
+use App\Services\Security\TwoFactorService;
 use App\Support\ApiResponse;
 use App\Support\Tenancy\TenantContext;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
@@ -24,6 +26,8 @@ class AuthController extends Controller
     public const MAX_ATTEMPTS = 5;
 
     public const LOCKOUT_SECONDS = 900;
+
+    public const MFA_CHALLENGE_MINUTES = 5;
 
     public function __construct(private TenantContext $context, private AuditLogger $audit) {}
 
@@ -77,12 +81,61 @@ class AuthController extends Controller
 
         RateLimiter::clear($throttleKey);
 
+        if ($user->hasTwoFactor()) {
+            // Mot de passe correct : on demande encore le code de l'application (§29.2).
+            $challenge = Str::random(64);
+            Cache::put('mfa:challenge:'.hash('sha256', $challenge), [
+                'user_id' => $user->id, 'institution_id' => $institution->id,
+                'device_name' => $data['device_name'] ?? 'web', 'attempts' => 0,
+            ], now()->addMinutes(self::MFA_CHALLENGE_MINUTES));
+
+            return ApiResponse::success(['mfa_required' => true, 'challenge_token' => $challenge], __('auth.mfa_code_required'));
+        }
+
+        return $this->issueToken($request, $user, $institution, $data['device_name'] ?? 'web');
+    }
+
+    /** Deuxième étape de connexion : code de l'application ou code de secours. */
+    public function verifyTwoFactor(Request $request, TwoFactorService $twoFactor): JsonResponse
+    {
+        $data = $request->validate([
+            'challenge_token' => ['required', 'string', 'size:64'],
+            'code' => ['nullable', 'string', 'max:10'],
+            'recovery_code' => ['nullable', 'string', 'max:20'],
+        ]);
+
+        $key = 'mfa:challenge:'.hash('sha256', $data['challenge_token']);
+        $challenge = Cache::get($key);
+        if (! $challenge) {
+            return ApiResponse::error(__('auth.mfa_expired'), 'MFA_EXPIRED', 401);
+        }
+
+        $user = User::query()->find($challenge['user_id']);
+        $institution = Institution::query()->find($challenge['institution_id']);
+
+        if (! $user || ! $institution || ! $twoFactor->verify($user, $data['code'] ?? null, $data['recovery_code'] ?? null)) {
+            $challenge['attempts']++;
+            $challenge['attempts'] >= self::MAX_ATTEMPTS
+                ? Cache::forget($key)
+                : Cache::put($key, $challenge, now()->addMinutes(self::MFA_CHALLENGE_MINUTES));
+            $this->recordLogin($request, $user?->email ?? '', $user, null, false, 'bad_mfa_code');
+
+            return ApiResponse::error(__('auth.mfa_invalid'), 'MFA_INVALID', 401);
+        }
+
+        Cache::forget($key);
+
+        return $this->issueToken($request, $user, $institution, $challenge['device_name']);
+    }
+
+    private function issueToken(Request $request, User $user, Institution $institution, string $deviceName): JsonResponse
+    {
         $expiresAt = now()->addMinutes((int) config('sanctum.expiration', 480));
-        $token = $user->createToken($data['device_name'] ?? 'web', ['*'], $expiresAt);
+        $token = $user->createToken($deviceName, ['*'], $expiresAt);
         $token->accessToken->forceFill(['institution_id' => $institution->id])->save();
 
         $user->forceFill(['last_login_at' => now()])->save();
-        $this->recordLogin($request, $email, $user, $institution, true);
+        $this->recordLogin($request, $user->email, $user, $institution, true);
 
         $this->context->runAs($institution, fn () => $this->audit->log('auth.login', $user, actor: $user));
 
@@ -117,6 +170,11 @@ class AuthController extends Controller
             'institution' => (new InstitutionResource($this->context->institution()))->resolve($request),
             'permissions' => $user->permissionCodes(),
             'is_platform_admin' => $user->is_platform_admin,
+            'security' => [
+                'mfa_enabled' => $user->hasTwoFactor(),
+                'mfa_recommended' => ! $user->hasTwoFactor() && $user->isPrivileged(),
+                'mfa_enforced' => ! $user->hasTwoFactor() && $user->isPrivileged() && (bool) config('cousp.mfa_enforce_privileged'),
+            ],
         ]);
     }
 

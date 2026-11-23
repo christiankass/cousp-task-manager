@@ -11,15 +11,19 @@ use App\Http\Controllers\Api\V1\MissionController;
 use App\Http\Controllers\Api\V1\NotificationController;
 use App\Http\Controllers\Api\V1\OrganizationUnitController;
 use App\Http\Controllers\Api\V1\RecommendationController;
+use App\Http\Controllers\Api\V1\ReportController;
 use App\Http\Controllers\Api\V1\TaskAttachmentController;
 use App\Http\Controllers\Api\V1\TaskCommentController;
 use App\Http\Controllers\Api\V1\TaskController;
+use App\Http\Controllers\Api\V1\TaskRecurrenceController;
 use App\Http\Controllers\Api\V1\TaskWorkflowController;
+use App\Http\Controllers\Api\V1\TwoFactorController;
 use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
     Route::post('auth/login', [AuthController::class, 'login'])->middleware('throttle:20,1');
+    Route::post('auth/mfa/verify', [AuthController::class, 'verifyTwoFactor'])->middleware('throttle:20,1');
 
     // Routes authentifiées, sans institution active : gestion de plateforme.
     Route::middleware(['auth:sanctum', 'platform.admin'])->prefix('platform')->group(function () {
@@ -27,11 +31,15 @@ Route::prefix('v1')->group(function () {
     });
 
     // Routes authentifiées dans le contexte de l'institution liée au jeton.
-    Route::middleware(['auth:sanctum', 'institution'])->group(function () {
+    Route::middleware(['auth:sanctum', 'institution', 'mfa'])->group(function () {
         Route::post('auth/logout', [AuthController::class, 'logout']);
         Route::get('auth/me', [AuthController::class, 'me']);
         Route::get('auth/institutions', [AuthController::class, 'institutions']);
         Route::put('auth/preferences', [AuthController::class, 'preferences']);
+        Route::get('auth/mfa', [TwoFactorController::class, 'show']);
+        Route::post('auth/mfa/setup', [TwoFactorController::class, 'setup']);
+        Route::post('auth/mfa/confirm', [TwoFactorController::class, 'confirm']);
+        Route::post('auth/mfa/disable', [TwoFactorController::class, 'disable']);
         Route::post('auth/change-password', [AuthController::class, 'changePassword']);
 
         Route::get('organization-units', [OrganizationUnitController::class, 'index'])->middleware('permission:org_units.view,org_units.manage');
@@ -84,6 +92,11 @@ Route::prefix('v1')->group(function () {
             Route::post('{id}/request-correction', [TaskWorkflowController::class, 'reject']);
         });
 
+        Route::get('task-recurrences', [TaskRecurrenceController::class, 'index']);
+        Route::post('task-recurrences', [TaskRecurrenceController::class, 'store']);
+        Route::put('task-recurrences/{id}', [TaskRecurrenceController::class, 'update'])->whereUuid('id');
+        Route::delete('task-recurrences/{id}', [TaskRecurrenceController::class, 'destroy'])->whereUuid('id');
+
         Route::get('approval-templates', [ApprovalTemplateController::class, 'index'])->middleware('permission:workflow.manage,tasks.create');
         Route::post('approval-templates', [ApprovalTemplateController::class, 'store'])->middleware('permission:workflow.manage');
         Route::put('approval-templates/{id}', [ApprovalTemplateController::class, 'update'])->whereUuid('id')->middleware('permission:workflow.manage');
@@ -128,6 +141,10 @@ Route::prefix('v1')->group(function () {
 
         Route::post('devices', [DeviceController::class, 'store']);
         Route::delete('devices', [DeviceController::class, 'destroy']);
+
+        Route::get('reports/tasks', [ReportController::class, 'tasks']);
+        Route::get('reports/meetings/{id}', [ReportController::class, 'meeting'])->whereUuid('id');
+        Route::get('reports/health-events/{id}', [ReportController::class, 'healthEvent'])->whereUuid('id');
 
         Route::get('dashboard/overview', [DashboardController::class, 'overview']);
         Route::get('dashboard/overdue', [DashboardController::class, 'overdue']);
