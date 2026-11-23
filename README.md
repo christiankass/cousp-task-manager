@@ -21,7 +21,7 @@ documentation/     Cahier des charges et conception
 |-----|---------|------|
 | 0 | Socle : institutions, structures, utilisateurs, rôles, connexion, isolation, audit, FR/EN | ✅ |
 | 1 | Tâches, validation hiérarchique, retards, notifications, tableau de bord | ✅ |
-| 2 | Application mobile | à faire |
+| 2 | Application mobile (Expo) : mes tâches, validation, photos, notifications push | en revue |
 | 3 | Réunions/recommandations, événements sanitaires, missions | à faire |
 | 4 | Rapports PDF/Excel, calendrier, Kanban, MFA, déploiement | à faire |
 

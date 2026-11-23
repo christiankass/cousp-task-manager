@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\InstitutionResource;
 use App\Http\Resources\UserResource;
+use App\Models\DeviceToken;
 use App\Models\Institution;
 use App\Models\LoginHistory;
 use App\Models\User;
@@ -97,6 +98,11 @@ class AuthController extends Controller
     public function logout(Request $request): JsonResponse
     {
         $this->audit->log('auth.logout', $request->user());
+
+        // Le téléphone ne reçoit plus les notifications de ce compte.
+        if ($request->filled('device_token')) {
+            DeviceToken::query()->where('user_id', $request->user()->id)->where('token', $request->string('device_token'))->delete();
+        }
         $request->user()->currentAccessToken()->delete();
 
         return ApiResponse::success(null, __('messages.logout_success'));
@@ -124,6 +130,16 @@ class AuthController extends Controller
             ->get());
 
         return ApiResponse::success(InstitutionResource::collection($institutions)->resolve($request));
+    }
+
+    /** L'utilisateur choisit sa langue (interface, e-mails, notifications). */
+    public function preferences(Request $request): JsonResponse
+    {
+        $data = $request->validate(['preferred_language' => ['required', 'in:fr,en']]);
+        $request->user()->forceFill($data)->save();
+        app()->setLocale($data['preferred_language']);
+
+        return ApiResponse::success(['preferred_language' => $data['preferred_language']], __('messages.updated'));
     }
 
     public function changePassword(Request $request): JsonResponse
