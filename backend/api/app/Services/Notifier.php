@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Jobs\SendPushNotification;
 use App\Models\AppNotification;
+use App\Models\DeviceToken;
 use App\Models\Task;
 use App\Models\User;
 use App\Notifications\TaskEmail;
@@ -47,6 +49,15 @@ class Notifier
                 'related_entity_id' => $task->id,
                 'data' => ['reference' => $task->reference],
             ]);
+
+            if (config('cousp.push_notifications')) {
+                $tokens = DeviceToken::query()->where('user_id', $user->id)->pluck('token')->all();
+                if ($tokens !== []) {
+                    SendPushNotification::dispatch($this->context->id(), $tokens, $notification->title, $notification->message, [
+                        'type' => $type, 'task_id' => $task->id, 'notification_id' => $notification->id,
+                    ]);
+                }
+            }
 
             if (config('cousp.mail_notifications')) {
                 $user->notify((new TaskEmail($notification->title, $notification->message, $task->id))->locale($locale));

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\V1\ApprovalTemplateController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\DashboardController;
+use App\Http\Controllers\Api\V1\DeviceController;
 use App\Http\Controllers\Api\V1\InstitutionController;
 use App\Http\Controllers\Api\V1\NotificationController;
 use App\Http\Controllers\Api\V1\OrganizationUnitController;
@@ -26,6 +27,7 @@ Route::prefix('v1')->group(function () {
         Route::post('auth/logout', [AuthController::class, 'logout']);
         Route::get('auth/me', [AuthController::class, 'me']);
         Route::get('auth/institutions', [AuthController::class, 'institutions']);
+        Route::put('auth/preferences', [AuthController::class, 'preferences']);
         Route::post('auth/change-password', [AuthController::class, 'changePassword']);
 
         Route::get('organization-units', [OrganizationUnitController::class, 'index'])->middleware('permission:org_units.view,org_units.manage');
@@ -86,6 +88,9 @@ Route::prefix('v1')->group(function () {
         Route::get('notifications/unread-count', [NotificationController::class, 'unreadCount']);
         Route::post('notifications/read-all', [NotificationController::class, 'markAllRead']);
         Route::patch('notifications/{id}/read', [NotificationController::class, 'markRead'])->whereUuid('id');
+
+        Route::post('devices', [DeviceController::class, 'store']);
+        Route::delete('devices', [DeviceController::class, 'destroy']);
 
         Route::get('dashboard/overview', [DashboardController::class, 'overview']);
         Route::get('dashboard/overdue', [DashboardController::class, 'overdue']);
