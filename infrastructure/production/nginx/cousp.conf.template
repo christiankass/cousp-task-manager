@@ -1,6 +1,7 @@
 # Nginx de production : une seule adresse publique (HTTPS) pour le web et l'API.
 #   https://${APP_DOMAIN}/        → application web (Next.js)
-#   https://${APP_DOMAIN}/api/    → API Laravel (aussi utilisée par l'application mobile)
+#   https://${APP_DOMAIN}/api/v1/ → API Laravel (aussi utilisée par l'application mobile)
+#   Les autres adresses /api/ (connexion, relais, téléchargements) appartiennent au web.
 # Le fichier est un modèle : Nginx remplace ${APP_DOMAIN} au démarrage.
 
 map $http_upgrade $connection_upgrade {
@@ -41,7 +42,7 @@ server {
     client_max_body_size 25M;
 
     # API Laravel (application mobile et appels directs).
-    location /api/ {
+    location /api/v1/ {
         location ~ ^/api/v1/auth/(login|mfa/verify)$ {
             limit_req zone=cousp_auth burst=10 nodelay;
             include /etc/nginx/snippets/laravel-public.conf;

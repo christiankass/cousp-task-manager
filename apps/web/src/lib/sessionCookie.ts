@@ -7,7 +7,8 @@ export function withSessionCookie(payload: { data: { access_token: string; expir
   const response = NextResponse.json({ ...payload, data: rest });
   response.cookies.set(TOKEN_COOKIE, access_token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    // COOKIE_SECURE=false uniquement pour la démonstration locale en http (docker-compose.demo.yml).
+    secure: process.env.NODE_ENV === "production" && process.env.COOKIE_SECURE !== "false",
     sameSite: "strict",
     path: "/",
     expires: new Date(expires_at),

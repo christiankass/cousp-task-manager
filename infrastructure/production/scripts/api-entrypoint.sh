@@ -23,4 +23,10 @@ if [ "${RUN_MIGRATIONS:-false}" = "true" ]; then
   php artisan migrate --force
 fi
 
+# Démonstration sur un PC (docker-compose.demo.yml) : données d'exemple, chargées une seule fois.
+if [ "${SEED_DEMO:-false}" = "true" ] && [ ! -f storage/app/.demo-seeded ]; then
+  php artisan db:seed --force
+  touch storage/app/.demo-seeded
+fi
+
 exec "$@"

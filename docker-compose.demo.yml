@@ -1,0 +1,130 @@
+# Démonstration de COUSP Task Manager sur un PC (Windows, Mac ou Linux) avec Docker Desktop.
+# Mode d'emploi : documentation/demo-locale.md (ou double-cliquer sur demarrer-demo.bat).
+#
+#   docker compose -f docker-compose.demo.yml up -d --build
+#   puis ouvrir http://localhost:8080   (mot de passe des comptes de démonstration : Cousp@2026!)
+#
+# NE PAS UTILISER EN PRODUCTION : clé et mots de passe ci-dessous sont publics.
+
+x-api-env: &api-env
+  APP_NAME: "COUSP Task Manager"
+  APP_ENV: demo
+  APP_DEBUG: "false"
+  APP_KEY: "base64:/FWqW6a9EU8mDvozQFrsOgS2MteNHzovGaWRCyMovTo="
+  APP_URL: http://localhost:8080
+  WEB_URL: http://localhost:8080
+  APP_LOCALE: fr
+  APP_FALLBACK_LOCALE: fr
+  DB_CONNECTION: pgsql
+  DB_HOST: postgres
+  DB_PORT: "5432"
+  DB_DATABASE: cousp_task
+  DB_USERNAME: cousp_app
+  DB_PASSWORD: demo_app_password
+  TENANCY_RLS_ENABLED: "true"
+  CACHE_STORE: redis
+  QUEUE_CONNECTION: redis
+  SESSION_DRIVER: redis
+  REDIS_HOST: redis
+  REDIS_PASSWORD: "null"
+  LOG_CHANNEL: stderr
+  LOG_LEVEL: warning
+  MAIL_MAILER: smtp
+  MAIL_HOST: mailpit
+  MAIL_PORT: "1025"
+  MAIL_FROM_ADDRESS: no-reply@cousp.local
+  MAIL_NOTIFICATIONS: "true"
+  PUSH_NOTIFICATIONS: "false"
+  MFA_ENFORCE_PRIVILEGED: "false"
+
+x-api: &api
+  build:
+    context: .
+    dockerfile: infrastructure/docker/api.prod.Dockerfile
+  image: cousp-demo/api
+  restart: unless-stopped
+  environment:
+    <<: *api-env
+  volumes:
+    - demo-storage:/var/www/html/storage
+  depends_on:
+    postgres: { condition: service_healthy }
+    redis: { condition: service_started }
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: cousp_task
+      POSTGRES_USER: cousp_admin
+      POSTGRES_PASSWORD: demo_admin_password
+      APP_DB_USER: cousp_app
+      APP_DB_PASSWORD: demo_app_password
+    volumes:
+      - demo-pgdata:/var/lib/postgresql/data
+      - ./infrastructure/production/postgres/10-app-role.sh:/docker-entrypoint-initdb.d/10-app-role.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cousp_admin -d cousp_task"]
+      interval: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+
+  # Boîte aux lettres de test : les e-mails envoyés par l'application s'affichent sur http://localhost:8025
+  mailpit:
+    image: axllent/mailpit:v1.20
+    restart: unless-stopped
+    ports: ["8025:8025"]
+
+  # API : crée les tables et charge les données de démonstration au premier démarrage.
+  api:
+    <<: *api
+    environment:
+      <<: *api-env
+      RUN_MIGRATIONS: "true"
+      SEED_DEMO: "true"
+    healthcheck:
+      # Prêt quand les données de démonstration sont chargées et que PHP répond.
+      test: ["CMD-SHELL", "test -f /var/www/html/storage/app/.demo-seeded && pidof php-fpm >/dev/null"]
+      interval: 10s
+      retries: 30
+      start_period: 60s
+
+  scheduler:
+    <<: *api
+    command: ["php", "artisan", "schedule:work"]
+    depends_on:
+      api: { condition: service_healthy }
+
+  queue:
+    <<: *api
+    command: ["php", "artisan", "queue:work", "--tries=3"]
+    depends_on:
+      api: { condition: service_healthy }
+
+  web:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/web.Dockerfile
+    image: cousp-demo/web
+    restart: unless-stopped
+    environment:
+      API_URL: http://nginx:8081/api/v1
+      COOKIE_SECURE: "false"
+
+  nginx:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    ports: ["8080:80"]
+    volumes:
+      - ./infrastructure/demo/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      api: { condition: service_healthy }
+      web: { condition: service_started }
+
+volumes:
+  demo-pgdata:
+  demo-storage:
