@@ -1,0 +1,32 @@
+<?php
+
+return [
+    'status' => [
+        'todo' => 'À faire', 'in_progress' => 'En cours', 'on_hold' => 'En attente',
+        'submitted' => 'Soumise pour validation', 'validated' => 'Validée', 'rejected' => 'À corriger',
+    ],
+    'priority' => ['low' => 'Basse', 'normal' => 'Normale', 'high' => 'Élevée', 'critical' => 'Critique'],
+    'type' => ['administrative' => 'Administrative', 'operational' => 'Opérationnelle'],
+    'approval' => ['none' => 'Non soumise', 'pending' => 'En attente de validation', 'approved' => 'Approuvée', 'rejected' => 'Rejetée'],
+    'only_responsible_can_submit' => 'Seul le responsable principal peut soumettre la tâche.',
+    'cannot_submit_from' => 'Une tâche « :status » ne peut pas être soumise.',
+    'no_approver' => 'Aucun valideur n\'a pu être déterminé pour cette tâche. Désignez un responsable de structure ou configurez un circuit de validation.',
+    'not_awaiting_approval' => 'Cette tâche n\'attend pas de validation.',
+    'not_your_approval' => 'Vous n\'êtes pas le valideur de l\'étape en cours.',
+    'cannot_assign_in_unit' => 'Vous ne pouvez pas attribuer de tâches dans cette structure.',
+    'cannot_create_in_unit' => 'Vous ne pouvez pas créer de tâches dans cette structure.',
+    'parent_closed' => 'La tâche parente est déjà validée.',
+    'due_change_reason_required' => 'Une justification est obligatoire pour modifier l\'échéance.',
+    'new_due_date' => 'Nouvelle échéance : :due.',
+    'invalid_transition' => 'Passage de « :from » à « :to » impossible.',
+    'on_hold_reason_required' => 'Indiquez la raison de la mise en attente.',
+    'cannot_remove_responsible' => 'Le responsable principal ne peut pas être retiré ; déléguez la tâche à une autre personne.',
+    'cannot_delete_validated' => 'Une tâche validée ne peut pas être supprimée.',
+    'task_closed' => 'Cette tâche est validée et ne peut plus être modifiée.',
+    'exactly_one_responsible' => 'Une tâche doit avoir exactement un responsable principal.',
+    'due_before_start' => 'L\'échéance ne peut pas précéder la date de début.',
+    'not_assignee' => 'Seules les personnes affectées à la tâche peuvent l\'exécuter.',
+    'submitted' => 'Tâche soumise pour validation',
+    'approved' => 'Validation enregistrée',
+    'rejected' => 'Corrections demandées',
+];

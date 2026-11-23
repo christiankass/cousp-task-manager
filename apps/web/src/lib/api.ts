@@ -53,3 +53,61 @@ export type OrganizationUnit = {
 };
 
 export type Me = { user: User; institution: Institution; permissions: string[]; is_platform_admin: boolean };
+
+export type TaskStatus = "todo" | "in_progress" | "on_hold" | "submitted" | "validated" | "rejected";
+
+export type Task = {
+  id: string;
+  reference: string;
+  title: string;
+  description: string | null;
+  expected_result: string | null;
+  task_type: "administrative" | "operational";
+  priority: "low" | "normal" | "high" | "critical";
+  status: TaskStatus;
+  approval_status: string;
+  is_overdue: boolean;
+  progress: number;
+  organization_unit?: { id: string; name: string };
+  parent_task_id: string | null;
+  start_at: string | null;
+  due_at: string | null;
+  validated_at: string | null;
+  created_by?: { id: string; name: string };
+  assignees?: { assignment_id: string; user_id: string; name: string; role: "responsible" | "collaborator" }[];
+  subtasks?: { id: string; reference: string; title: string; status: TaskStatus; is_overdue: boolean }[];
+  can?: { update: boolean; execute: boolean; submit: boolean; decide: boolean; delete: boolean };
+};
+
+export type Dashboard = {
+  total: number;
+  by_status: Record<TaskStatus, number>;
+  overdue: number;
+  critical_open: number;
+  execution_rate: number | null;
+  validation_rate: number | null;
+  average_execution_hours: number | null;
+  by_unit: { id: string; name: string; total: number; validated: number; overdue: number }[];
+  monthly: { month: string; created: number; validated: number }[];
+};
+
+export type AppNotification = {
+  id: string;
+  type: string;
+  title: string;
+  message: string;
+  related_entity_id: string | null;
+  read_at: string | null;
+  created_at: string;
+};
+
+export function formatDate(iso: string | null, locale: string): string {
+  if (!iso) return "—";
+  return new Date(iso).toLocaleString(locale === "en" ? "en-GB" : "fr-FR", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}

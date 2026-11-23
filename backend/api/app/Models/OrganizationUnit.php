@@ -66,6 +66,24 @@ class OrganizationUnit extends Model
         return $ids;
     }
 
+    /**
+     * Identifiants de cette structure puis de ses parentes, de la plus proche à la racine.
+     *
+     * @return list<string>
+     */
+    public function ancestorIds(): array
+    {
+        $ids = [$this->id];
+        $parentId = $this->parent_id;
+
+        while ($parentId !== null && ! in_array($parentId, $ids, true)) {
+            $ids[] = $parentId;
+            $parentId = self::query()->whereKey($parentId)->value('parent_id');
+        }
+
+        return $ids;
+    }
+
     /** Vrai si $candidate est cette structure ou l'une de ses descendantes. */
     public function isSelfOrAncestorOf(self|string $candidate): bool
     {

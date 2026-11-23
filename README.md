@@ -20,7 +20,7 @@ documentation/     Cahier des charges et conception
 | Lot | Contenu | État |
 |-----|---------|------|
 | 0 | Socle : institutions, structures, utilisateurs, rôles, connexion, isolation, audit, FR/EN | ✅ |
-| 1 | Tâches, validation hiérarchique, retards, notifications, tableau de bord | à faire |
+| 1 | Tâches, validation hiérarchique, retards, notifications, tableau de bord | ✅ |
 | 2 | Application mobile | à faire |
 | 3 | Réunions/recommandations, événements sanitaires, missions | à faire |
 | 4 | Rapports PDF/Excel, calendrier, Kanban, MFA, déploiement | à faire |
@@ -61,6 +61,18 @@ Comptes de démonstration (mot de passe `Cousp@2026!`) :
 | observateur@cousp.local | Observateur |
 | admin@insp.local, agent@insp.local | Comptes INSP (pour vérifier l'isolation) |
 | superadmin@cousp-task.local | Super administrateur de plateforme |
+
+## Tâches planifiées
+
+Le repérage des retards et des échéances proches tourne toutes les 15 minutes :
+
+```bash
+php artisan schedule:work          # en développement
+php artisan tasks:detect-deadlines # exécution manuelle
+```
+
+Les e-mails partent par la file d'attente (`php artisan queue:work`). En développement,
+Mailpit les affiche sur http://localhost:8025 ; mettez `MAIL_NOTIFICATIONS=false` pour les couper.
 
 ## Tests
 
