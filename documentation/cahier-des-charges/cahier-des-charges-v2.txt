@@ -1,0 +1,1553 @@
+CAHIER DES CHARGES FONCTIONNEL ET TECHNIQUE
+Application de gestion et de suivi des tâches – COUSP
+who.int
+Projet institutionnel
+Santé publique
+Gestion opérationnelle
+Dénomination proposée : COUSP Task Manager
+Nature : Plateforme numérique centralisée de planification, d'attribution, d'exécution et de suivi des tâches institutionnelles et opérationnelles.
+Organisation cible : Centre des Opérations d'Urgence de Santé Publique (COUSP), avec possibilité d'extension à l'INSP et aux autres structures de santé publique.
+1. Présentation générale du projet
+1.1. Contexte et justification
+Dans une organisation de santé publique comme le COUSP, plusieurs activités sont menées simultanément par différentes directions, divisions, cellules, équipes techniques et unités opérationnelles.
+Ces activités peuvent concerner notamment :
+- La surveillance épidémiologique.
+- La préparation et la réponse aux urgences sanitaires.
+- La coordination des interventions.
+- La collecte et l'analyse des données sanitaires.
+- La gestion des alertes et des événements de santé publique.
+- La communication des risques et l'engagement communautaire.
+- La logistique et la mobilisation des ressources.
+- Le suivi des recommandations issues des réunions.
+- La production des rapports opérationnels.
+Lorsque ces activités sont suivies manuellement, notamment à travers WhatsApp, les courriers, les fichiers Excel et les réunions, plusieurs difficultés peuvent apparaître :
+1. Difficulté à identifier les tâches confiées à chaque agent.
+2. Absence de visibilité sur l'état réel d'exécution des activités.
+3. Retards dans la réalisation des missions.
+4. Difficulté à identifier les responsables des tâches non exécutées.
+5. Perte de certaines recommandations formulées pendant les réunions.
+6. Absence d'un historique centralisé des activités réalisées.
+7. Difficulté à produire des rapports consolidés pour la hiérarchie.
+Il devient donc nécessaire de mettre en place une plateforme numérique permettant de centraliser et de contrôler l'ensemble du cycle de gestion des tâches.
+1.2. Vision du projet
+Développer une application web institutionnelle permettant au COUSP de disposer d'un système centralisé de gestion des activités, des responsabilités, des échéances et des résultats.
+L'application devra permettre à chaque responsable de planifier des activités, d'attribuer des tâches aux agents, de suivre leur progression et d'évaluer les résultats obtenus.
+L'objectif principal est de passer d'une gestion dispersée des tâches à une gestion structurée, mesurable, collaborative et traçable.
+2. Objectifs du projet
+2.1. Objectif général
+Concevoir et déployer une plateforme numérique de gestion des tâches permettant d'améliorer la coordination, la productivité, la responsabilisation et le suivi des activités au sein du COUSP.
+2.2. Objectifs spécifiques
+- Centraliser toutes les tâches institutionnelles et opérationnelles.
+- Faciliter l'attribution des responsabilités.
+- Définir des échéances précises pour chaque activité.
+- Suivre l'évolution des tâches en temps réel.
+- Identifier automatiquement les tâches en retard.
+- Faciliter la collaboration entre les différentes unités.
+- Conserver un historique des activités exécutées.
+- Générer des rapports périodiques.
+- Mesurer les performances des équipes et des agents.
+- Faciliter la prise de décision par les responsables.
+3. Périmètre fonctionnel de l'application
+L'application sera organisée autour de plusieurs modules interconnectés.
+Module 1 – Tableau de bord
+Vue générale des tâches, activités, retards, priorités et performances.
+Module 2 – Gestion des tâches
+Création, attribution, modification, planification et suivi des tâches.
+Module 3 – Gestion des équipes
+Organisation des directions, divisions, cellules, équipes et agents.
+Module 4 – Rapports et statistiques
+Rapports d'exécution, indicateurs de performance et analyses.
+Module 5 – Notifications et alertes
+Rappels automatiques, échéances, retards et changements de statut.
+Module 6 – Documents et pièces jointes
+Centralisation des documents, preuves d'exécution et livrables.
+4. Description détaillée des modules
+4.1. Module de gestion des utilisateurs et des organisations
+Ce module permet de reproduire l'organisation administrative et fonctionnelle du COUSP.
+Il devra permettre de gérer :
+- Les directions.
+- Les divisions.
+- Les départements ou services.
+- Les cellules opérationnelles.
+- Les équipes d'intervention.
+- Les agents et collaborateurs.
+Chaque utilisateur devra être associé à une structure et à un profil d'accès.
+Exemple d'organisation :
+Direction générale / Coordination COUSP
+Surveillance épidémiologique
+Gestion des urgences
+Laboratoire
+Communication des risques
+Logistique
+Gestion de l'information
+Organisation illustrative, à adapter à l'organigramme officiel du COUSP.
+4.2. Module de gestion des tâches
+C'est le cœur de l'application.
+Un responsable devra pouvoir créer une tâche et préciser les informations suivantes :
+Champ	Description
+Référence	Identifiant unique de la tâche
+Intitulé	Nom de la tâche
+Description	Détails et instructions
+Catégorie	Administrative, technique, opérationnelle, etc.
+Structure	Direction ou service concerné
+Responsable	Agent chargé de la tâche
+Collaborateurs	Autres agents impliqués
+Priorité	Basse, normale, élevée, critique
+Date de début	Date de démarrage
+Date limite	Échéance prévue
+Résultat attendu	Livrable ou objectif
+Documents	Fichiers associés
+Statut	État d'avancement
+L'application devra également permettre :
+- L'attribution d'une tâche à un ou plusieurs agents.
+- La délégation d'une tâche.
+- La création de sous-tâches.
+- La définition de tâches récurrentes.
+- La modification des échéances avec justification.
+- L'ajout de commentaires.
+- Le transfert d'une tâche vers une autre équipe.
+- La validation du travail réalisé.
+4.3. Gestion des statuts
+Chaque tâche suivra un circuit de traitement.
+1. À faire
+   La tâche est créée et attribuée, mais son exécution n'a pas commencé.
+2. En cours
+   L'agent travaille sur la tâche.
+3. En attente
+   L'exécution est temporairement bloquée.
+4. Soumise pour validation
+   L'agent a terminé et transmet le résultat à son responsable.
+5. Validée
+   Le responsable confirme que le résultat est conforme.
+6. Rejetée / À corriger
+   Le résultat nécessite des corrections.
+Automatique
+Une tâche dont l'échéance est dépassée sans validation sera identifiée comme étant en retard.
+Important : le système devra distinguer le statut d'une tâche de son indicateur de retard. Une tâche peut être « En cours » et simultanément « En retard ».
+4.4. Module de planification des activités
+Ce module permettra aux responsables de planifier les activités à court, moyen et long terme.
+Fonctionnalités :
+- Calendrier journalier.
+- Vue hebdomadaire.
+- Vue mensuelle.
+- Planification trimestrielle.
+- Planification annuelle.
+- Gestion des activités récurrentes.
+- Affectation des ressources humaines.
+- Suivi des échéances.
+4.5. Module de gestion des réunions et recommandations
+Ce module est particulièrement important pour une structure comme le COUSP.
+Il permettra de transformer les décisions prises lors des réunions en tâches concrètes.
+Exemple :
+Une réunion de coordination décide de renforcer la surveillance épidémiologique dans certaines zones.
+Le secrétaire ou le responsable de réunion pourra :
+1. Enregistrer la réunion.
+2. Ajouter les participants.
+3. Enregistrer les recommandations.
+4. Transformer chaque recommandation en tâche.
+5. Désigner un responsable.
+6. Définir une échéance.
+7. Suivre l'exécution.
+8. Produire un rapport de suivi des décisions.
+L'objectif est de garantir que les décisions prises en réunion ne restent pas uniquement dans les procès-verbaux.
+4.6. Module de suivi des urgences sanitaires
+Une fonctionnalité spécialisée devra permettre de rattacher certaines tâches à un événement ou une urgence sanitaire.
+Exemples :
+- Épidémie de choléra.
+- Épidémie de rougeole.
+- Mpox.
+- Fièvre hémorragique.
+- Inondation avec risque sanitaire.
+- Autres événements de santé publique.
+Chaque événement pourra disposer d'un espace de coordination comprenant :
+- Identification de l'événement.
+- Description.
+- Zone géographique concernée.
+- Date d'ouverture.
+- Responsable de coordination.
+- Niveau de priorité.
+- Liste des activités.
+- Équipes impliquées.
+- Tâches associées.
+- Rapports de situation.
+- Date de clôture.
+Distinction importante : ce module ne remplace pas un système de surveillance épidémiologique. Il permet de suivre les actions et les responsabilités liées à la réponse sanitaire.
+4.7. Module de notifications et alertes
+Le système devra envoyer des notifications automatiques pour :
+- Une nouvelle tâche attribuée.
+- Une modification d'une tâche.
+- Une échéance qui approche.
+- Une tâche en retard.
+- Une tâche soumise à validation.
+- Une tâche rejetée.
+- Une tâche validée.
+- Une nouvelle mention ou un commentaire.
+Les canaux envisagés :
+- Notifications dans l'application.
+- Courrier électronique.
+- SMS (phase ultérieure).
+- WhatsApp Business (intégration éventuelle).
+4.8. Module de rapports et statistiques
+Les responsables devront disposer d'indicateurs permettant d'évaluer l'exécution des activités.
+Exemples d'indicateurs :
+Indicateur	Utilité
+Total des tâches	Volume global des activités
+Tâches terminées	Niveau d'exécution
+Tâches en cours	Activités en progression
+Tâches en retard	Identification des blocages
+Taux d'exécution	Mesure de performance
+Taux de validation	Qualité des livrables
+Délai moyen d'exécution	Mesure de réactivité
+Tâches par service	Comparaison entre structures
+Formule du taux d'exécution :
+\[
+Taux = \frac{Tâches\ validées}{Tâches\ arrivées\ à\ échéance} \times 100
+\]
+Le calcul devra être défini précisément dans les règles métier pour éviter de pénaliser les tâches non encore échues.
+Les rapports devront pouvoir être exportés en PDF et Excel.
+5. Gestion des rôles et permissions
+L'application devra disposer d'un système de gestion des accès basé sur les rôles (RBAC – Role-Based Access Control).
+Chaque utilisateur ne pourra accéder qu'aux fonctionnalités et informations autorisées par son profil.
+Profil	Responsabilités
+Super administrateur	Configuration générale et administration technique
+Administrateur institutionnel	Gestion de l'organisation et des utilisateurs
+Coordonnateur général	Supervision de toutes les activités
+Responsable de direction	Gestion et supervision des tâches de sa direction
+Chef de service	Attribution et suivi des tâches de son service
+Agent / Exécutant	Consultation et exécution de ses tâches
+Contrôleur / Validateur	Vérification et validation des résultats
+Observateur	Consultation des tableaux de bord et rapports autorisés
+Règles de gestion des permissions
+- Un agent ne peut pas supprimer définitivement une tâche qui lui est attribuée.
+- Un agent peut modifier le statut de ses tâches selon les règles établies.
+- Un responsable peut consulter les tâches de son unité.
+- Un coordonnateur peut consulter les activités de toutes les unités.
+- Un validateur peut approuver ou rejeter les livrables.
+- L'administrateur peut gérer les comptes et les paramètres institutionnels.
+- Les actions sensibles doivent être enregistrées dans un journal d'audit.
+6. Processus opérationnels de l'application
+Voici comment l'application devra fonctionner dans une situation réelle au COUSP.
+6.1. Scénario 1 : Attribution d'une tâche par le coordonnateur
+1. Le coordonnateur se connecte
+   Il accède à son tableau de bord institutionnel.
+2. Il crée une tâche
+   Exemple : préparer le rapport hebdomadaire des activités de surveillance.
+3. Il désigne un responsable
+   Il sélectionne la direction et l'agent concerné.
+4. Il fixe une échéance
+   Exemple : vendredi à 15 h.
+5. L'agent reçoit une notification
+   La nouvelle tâche apparaît dans son espace personnel.
+6. L'agent exécute la tâche
+   Il ajoute des commentaires, des documents et met à jour sa progression.
+7. Le responsable vérifie le résultat
+   Il valide ou demande des corrections.
+8. Le coordonnateur suit le résultat
+   La tâche validée est comptabilisée dans les rapports.
+6.2. Scénario 2 : Une tâche n'est pas exécutée à temps
+Prenons l'exemple d'une tâche dont la date limite est dépassée.
+Le système devra automatiquement :
+1. Identifier le dépassement de l'échéance.
+2. Marquer la tâche comme étant en retard.
+3. Envoyer une notification à l'agent responsable.
+4. Informer le chef de service.
+5. Alerter le responsable hiérarchique selon les règles de configuration.
+6. Faire apparaître la tâche dans le tableau des retards.
+7. Conserver l'historique du retard et des justifications.
+6.3. Scénario 3 : Suivi des recommandations d'une réunion
+Une réunion du comité de coordination formule dix recommandations.
+Le système devra permettre de convertir les dix recommandations en dix tâches distinctes, chacune avec :
+- Un responsable.
+- Une équipe concernée.
+- Une date limite.
+- Un résultat attendu.
+- Un statut d'exécution.
+À la prochaine réunion, le coordonnateur pourra consulter le taux d'exécution des recommandations précédentes.
+7. Tableau de bord institutionnel
+Le tableau de bord est l'interface stratégique de l'application.
+Il devra présenter une vision synthétique de toutes les activités.
+dribbble.com
+Indicateurs à afficher
+- Nombre total de tâches.
+- Tâches validées.
+- Tâches en cours.
+- Tâches en attente.
+- Tâches en retard.
+- Tâches critiques.
+- Taux global d'exécution.
+- Activités par direction.
+- Activités par responsable.
+- Évolution des performances mensuelles.
+Différentes vues du tableau de bord
+Vue	Utilisateur
+Institutionnelle	Coordonnateur général
+Directionnelle	Responsable de direction
+Service	Chef de service
+Individuelle	Agent
+Événement sanitaire	Équipe de réponse
+Chaque tableau de bord devra afficher uniquement les informations correspondant aux permissions de l'utilisateur.
+8. Exigences techniques
+8.1. Type d'application
+L'application sera développée comme une plateforme web institutionnelle accessible depuis :
+- Ordinateurs de bureau.
+- Ordinateurs portables.
+- Tablettes.
+- Smartphones.
+L'interface devra être responsive et adaptée aux différents formats d'écran.
+8.2. Architecture technique proposée
+Je recommande une architecture modulaire, évolutive et sécurisée.
+Couche présentation
+Interface web responsive – Next.js
+Couche applicative – API
+Laravel – API REST – Authentification – Règles métier
+Base de données
+PostgreSQL
+Stockage
+Documents et pièces jointes
+Notifications
+Email et notifications internes
+Reporting
+PDF, Excel et statistiques
+Cette architecture est une proposition de conception, et non une contrainte définitive.
+8.3. Technologies recommandées
+Composant	Technologie
+Frontend	Next.js / React
+Backend	Laravel
+API	REST API
+Base de données	PostgreSQL
+Authentification	Laravel Sanctum ou mécanisme adapté
+Gestion des permissions	RBAC
+Notifications	Laravel Notifications
+Traitement asynchrone	Laravel Queues
+Génération PDF	Laravel PDF
+Export Excel	Laravel Excel
+Déploiement	Docker
+Serveur web	Nginx
+Versionnement	Git
+8.4. Sécurité informatique
+Compte tenu de la nature institutionnelle du COUSP, la sécurité doit être considérée comme une exigence fondamentale.
+L'application devra intégrer :
+- Authentification sécurisée.
+- Gestion des rôles et permissions.
+- Politique de mots de passe robustes.
+- Authentification multifacteur pour les comptes sensibles.
+- Chiffrement des communications HTTPS/TLS.
+- Protection contre les injections SQL.
+- Protection contre les attaques XSS et CSRF.
+- Journalisation des connexions et actions.
+- Sauvegardes automatiques.
+- Gestion des sessions.
+- Verrouillage après plusieurs tentatives de connexion infructueuses.
+- Contrôle des fichiers téléversés.
+- Procédures de restauration après incident.
+Les données personnelles et les éventuelles informations sanitaires sensibles devront être soumises à des règles spécifiques de confidentialité et de contrôle d'accès. L'application de gestion des tâches ne devra pas devenir un dépôt non contrôlé de dossiers médicaux.
+9. Modèle de données prévisionnel
+La base de données devra être structurée pour assurer la cohérence et l'évolutivité de la plateforme.
+Voici les principales entités :
+Table	Description
+users	Comptes utilisateurs
+roles	Rôles
+permissions	Autorisations
+organizations	Structures institutionnelles
+departments	Directions et services
+teams	Équipes opérationnelles
+tasks	Tâches principales
+task_assignments	Affectations aux agents
+task_status_history	Historique des statuts
+task_comments	Commentaires
+task_attachments	Documents associés
+task_checklists	Éléments de contrôle
+meetings	Réunions
+meeting_participants	Participants
+recommendations	Recommandations
+health_events	Événements sanitaires
+notifications	Notifications
+audit_logs	Journaux d'audit
+Relations principales
+- Une structure peut posséder plusieurs services.
+- Un service peut posséder plusieurs équipes.
+- Un utilisateur appartient à une structure et peut appartenir à une ou plusieurs équipes.
+- Une tâche peut avoir plusieurs collaborateurs.
+- Une tâche peut comporter plusieurs sous-tâches.
+- Une tâche peut être liée à une réunion.
+- Une recommandation peut générer une ou plusieurs tâches.
+- Une tâche peut être liée à un événement sanitaire.
+- Chaque changement de statut doit être historisé.
+10. Exigences non fonctionnelles
+Exigence	Description
+Disponibilité	Objectif de disponibilité de 99,5 %
+Performance	Temps de réponse cible inférieur à 3 secondes pour les opérations courantes
+Évolutivité	Possibilité d'ajouter de nouveaux services
+Compatibilité	Navigateurs modernes
+Ergonomie	Interface simple et intuitive
+Sécurité	Protection des données institutionnelles
+Traçabilité	Historique des actions importantes
+Sauvegarde	Sauvegardes quotidiennes et tests de restauration
+Accessibilité	Interface adaptée aux différents utilisateurs
+Maintenabilité	Code modulaire et documenté
+10.1. Mode de fonctionnement en cas de connexion limitée
+Compte tenu des réalités opérationnelles, il serait pertinent de prévoir :
+- Une interface légère consommant peu de bande passante.
+- La possibilité de reprendre une session après une coupure réseau.
+- Des mécanismes de reprise des opérations non terminées.
+- Une architecture permettant une évolution vers certaines fonctions hors ligne.
+Le fonctionnement hors ligne complet pourra être développé dans une phase ultérieure.
+11. Organisation des menus de l'application
+Voici une proposition d'organisation de l'interface utilisateur.
+COUSP TASK MANAGER
+Tableau de bord
+Gestion des tâches
+Planification
+Équipes et utilisateurs
+Structures institutionnelles
+Réunions et recommandations
+Urgences sanitaires
+Notifications
+Documents
+Rapports et statistiques
+Audit et sécurité
+Paramètres
+12. Livrables attendus
+Le prestataire ou l'équipe de développement devra fournir :
+1. Cahier des charges fonctionnel et technique.
+2. Maquettes UX/UI de l'application.
+3. Architecture technique détaillée.
+4. Modèle conceptuel et logique de données.
+5. Code source documenté.
+6. Application web opérationnelle.
+7. API documentée.
+8. Documentation d'installation et de déploiement.
+9. Documentation utilisateur.
+10. Documentation administrateur.
+11. Plan de sauvegarde et de restauration.
+12. Rapport de tests et de validation.
+13. Formation des utilisateurs.
+14. Mise en production et accompagnement.
+13. Plan de réalisation du projet
+Je recommande un développement progressif en six phases.
+Phase	Activités	Durée indicative
+1	Analyse et validation des besoins	2 semaines
+2	Conception fonctionnelle et technique	2 semaines
+3	Maquettes et conception UX/UI	2 semaines
+4	Développement des modules	6 à 8 semaines
+5	Tests, corrections et validation	2 semaines
+6	Déploiement et formation	1 à 2 semaines
+Estimation
+ Durée globale indicative : 15 à 18 semaines, selon la disponibilité des utilisateurs clés et la complexité des validations institutionnelles.
+14. Critères de réception et de validation
+L'application sera considérée comme fonctionnelle lorsque les conditions suivantes seront satisfaites :
+- [ ] L'administrateur peut créer les structures et les utilisateurs.
+- [ ] Les utilisateurs peuvent se connecter selon leurs permissions.
+- [ ] Un responsable peut créer et attribuer une tâche.
+- [ ] Un agent peut consulter et exécuter ses tâches.
+- [ ] Un agent peut transmettre un livrable.
+- [ ] Un responsable peut valider ou rejeter une tâche.
+- [ ] Le système détecte les tâches en retard.
+- [ ] Les notifications sont opérationnelles.
+- [ ] Les recommandations des réunions peuvent devenir des tâches.
+- [ ] Les tâches peuvent être rattachées à un événement sanitaire.
+- [ ] Les tableaux de bord affichent les indicateurs corrects.
+- [ ] Les rapports peuvent être exportés.
+- [ ] Les actions importantes sont historisées.
+- [ ] Les sauvegardes et restaurations sont testées.
+15. Perspectives d'évolution
+Au-delà de la gestion classique des tâches, je recommande de prévoir une évolution vers une véritable plateforme de pilotage opérationnel du COUSP.
+Voici les fonctionnalités qui pourraient être ajoutées progressivement :
+Application mobile
+Permettre aux agents de recevoir leurs missions et de transmettre leurs rapports depuis le terrain.
+Phase 2
+Cartographie des activités
+Visualiser géographiquement les missions, les interventions et les activités des équipes.
+Phase 2
+Intelligence artificielle
+Analyser les retards, résumer les rapports, identifier les tâches prioritaires et assister les responsables dans la prise de décision.
+Phase 3
+Automatisation des workflows
+Déclencher automatiquement certaines tâches en fonction des événements, des décisions et des validations.
+Phase 2
+Interopérabilité institutionnelle
+Prévoir des échanges avec les autres plateformes du COUSP et de l'INSP, notamment les systèmes de ressources humaines et de gestion des données sanitaires.
+Phase 3
+16. Recommandations stratégiques pour le COUSP
+À mon avis, il faut éviter de développer une simple application de gestion de tâches comparable à une liste de choses à faire.
+Le COUSP a des responsabilités particulières en matière de coordination et de réponse aux urgences de santé publique.
+Je recommande donc trois niveaux de gestion :
+Niveau 1 : Gestion administrative
+- Tâches quotidiennes.
+- Activités des services.
+- Réunions.
+- Rapports.
+- Recommandations hiérarchiques.
+Niveau 2 : Gestion opérationnelle
+- Missions des équipes.
+- Activités de terrain.
+- Suivi des interventions.
+- Coordination interservices.
+- Livrables opérationnels.
+Niveau 3 : Pilotage stratégique
+- Supervision institutionnelle.
+- Suivi des objectifs.
+- Analyse des performances.
+- Identification des retards critiques.
+- Prise de décision.
+Cette approche permettra au COUSP de disposer d'un outil qui ne sert pas uniquement à savoir qui doit faire quoi, mais également à savoir si les objectifs institutionnels sont atteints.
+17. Décisions à prendre avant la conception technique
+Pour transformer ce cahier des charges en un véritable dossier de conception technique détaillée, je te propose de fixer les choix suivants.
+1. Périmètre institutionnel
+COUSP uniquement
+COUSP avec possibilité d'extension à l'INSP et autres structures
+2. Types de tâches
+Tâches administratives uniquement
+Tâches opérationnelles et missions de terrain uniquement
+Les deux catégories
+3. Circuit de validation
+Validation hiérarchique (agent → chef de service → responsable)
+Validation directe par le responsable désigné
+Circuit configurable selon le type de tâche
+4. Hébergement
+Serveur local au COUSP
+Cloud
+Hybride (infrastructure locale et cloud)
+5. Plateforme
+Application web responsive
+Web et application mobile dès le lancement
+6. Fonctionnement hors connexion
+Prévu dans une phase ultérieure
+Disponible dès la première version
+7. Langue de l'interface
+Français
+Français et anglais
+Valider mes choix et préparer la conception technique
+Mon conseil : construisons cette solution comme un véritable système institutionnel de gestion et de pilotage des activités du COUSP, avec une architecture suffisamment évolutive pour devenir, à terme, une plateforme commune à plusieurs structures de santé publique en RDC.
+DOSSIER DE CONCEPTION TECHNIQUE DÉTAILLÉE
+COUSP Task Manager – Plateforme institutionnelle de gestion des tâches et des activités
+emro.who.int
+COUSP Task Manager
+Version 2.0 – Conception fonctionnelle et technique
+Multi-institutionnel
+Web + Mobile
+Architecture hybride
+FR / EN
+Document de référence pour l'équipe de développement, les responsables informatiques et les décideurs institutionnels.
+PARTIE I – MISE À JOUR DU CAHIER DES CHARGES
+1. Décisions fonctionnelles validées
+Les décisions retenues constituent désormais la base de référence du projet.
+Dimension	Décision validée
+Périmètre	Multi-institutionnel
+Types de tâches	Administratives et opérationnelles
+Validation	Hiérarchique
+Hébergement	Hybride
+Plateformes	Web et mobile dès le lancement
+Mode hors connexion	Phase ultérieure
+Langues	Français et anglais
+1.1. Conséquences sur la conception
+Ces décisions entraînent plusieurs évolutions importantes.
+Multi-institutionnel : une même plateforme hébergera plusieurs institutions indépendantes. Chaque institution aura ses utilisateurs, ses services, son organigramme, ses responsables, ses tâches et ses paramètres.
+Tâches mixtes : l'application devra distinguer les tâches administratives des missions opérationnelles, tout en utilisant un moteur de gestion commun.
+Validation hiérarchique : une tâche ne sera pas considérée comme définitivement terminée simplement parce que l'agent a déclaré son travail achevé. Elle devra suivre le circuit d'approbation défini.
+Web et mobile : les deux interfaces seront développées dès la première version et utiliseront la même API centrale.
+Hébergement hybride : l'infrastructure devra permettre d'associer une plateforme centralisée à des ressources locales institutionnelles.
+Bilinguisme : les interfaces, notifications standardisées, rapports et messages système devront être disponibles en français et en anglais.
+2. Vision fonctionnelle actualisée
+L'application sera organisée autour de quatre niveaux de gestion.
+Niveau 1 – Plateforme centrale
+Administration globale et gestion multi-institutionnelle
+Niveau 2 – Institutions
+COUSP · INSP · Autres structures autorisées
+Niveau 3 – Structures organisationnelles
+Directions · Divisions · Services · Cellules · Équipes
+Niveau 4 – Exécution
+Responsables · Agents · Collaborateurs · Validateurs
+Cette organisation permettra d'avoir une vision globale de la plateforme tout en garantissant l'indépendance des institutions.
+3. Modules fonctionnels définitifs
+Réf.	Module	Fonction principale
+M01	Multi-institution	Gestion des institutions
+M02	Organisation	Directions, services et équipes
+M03	Utilisateurs	Comptes, profils et permissions
+M04	Gestion des tâches	Création et attribution
+M05	Planification	Calendrier et échéances
+M06	Workflow	Validation hiérarchique
+M07	Missions terrain	Suivi opérationnel
+M08	Événements sanitaires	Gestion des activités liées aux urgences
+M09	Réunions	Décisions et recommandations
+M10	Notifications	Alertes et rappels
+M11	Documents	Livrables et pièces jointes
+M12	Reporting	Statistiques et rapports
+M13	Audit	Traçabilité et sécurité
+M14	Administration	Paramètres et configuration
+M15	Internationalisation	Français et anglais
+PARTIE II – ARCHITECTURE TECHNIQUE
+4. Architecture générale proposée
+Je recommande une architecture modulaire avec un backend centralisé exposant une API REST.
+Il ne sera pas nécessaire de construire quinze applications indépendantes. Les différents modules fonctionneront au sein d'un même système applicatif, avec des responsabilités clairement séparées.
+4.1. Stack technologique
+Next.js – Application Web
+Interface institutionnelle, administration et tableaux de bord
+React Native / Expo – Application Mobile
+Android et iOS, missions et notifications
+Laravel – Backend
+API REST, règles métier, workflows et sécurité
+PostgreSQL – Base de données
+Données institutionnelles et transactions
+Redis – Cache et files d'attente
+Traitements asynchrones et notifications
+Docker – Infrastructure
+Conteneurisation et déploiement
+Autres composants :
+- Laravel Reverb : communication temps réel.
+- MinIO ou stockage S3 compatible : documents.
+- Laravel Excel : génération Excel.
+- Générateur PDF : rapports et documents.
+- Firebase Cloud Messaging et APNs : notifications mobiles.
+- Git : versionnement du code.
+- Nginx : reverse proxy.
+5. Diagramme d'architecture technique
+5.1. Description des couches
+Couche présentation : les utilisateurs travaillent depuis un navigateur ou une application mobile.
+Couche sécurité : chaque requête est authentifiée et les permissions sont vérifiées.
+Couche métier : Laravel exécute les règles de gestion, les affectations, les validations et les notifications.
+Couche données : PostgreSQL conserve les informations structurées, Redis accélère les traitements et le stockage documentaire conserve les pièces jointes.
+Cette séparation facilite les évolutions futures sans devoir réécrire toute l'application.
+6. Architecture multi-institutionnelle (Multi-tenancy)
+C'est l'un des choix techniques les plus importants du projet.
+Je recommande le modèle Shared Application – Shared Database – Tenant Isolation.
+Cela signifie :
+- Une seule application pour toutes les institutions.
+- Une seule base de données PostgreSQL.
+- Plusieurs institutions enregistrées dans cette base.
+- Une séparation logique stricte des données.
+- Des administrateurs propres à chaque institution.
+- Des configurations indépendantes.
+6.1. Exemple de fonctionnement
+Institution	Utilisateurs	Tâches	Administration
+COUSP	Ses agents	Ses tâches	Son administrateur
+INSP	Ses agents	Ses tâches	Son administrateur
+Institution C	Ses agents	Ses tâches	Son administrateur
+Un utilisateur COUSP ne doit jamais pouvoir consulter les tâches confidentielles de l'INSP, sauf autorisation explicite de partage.
+6.2. Règle technique fondamentale
+Toutes les tables contenant des données appartenant à une institution devront comporter une clé institution_id.
+Exemple :
+CREATE TABLE tasks (
+    id UUID PRIMARY KEY,
+    institution_id UUID NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    status VARCHAR(30) NOT NULL,
+    priority VARCHAR(30) NOT NULL,
+    due_at TIMESTAMP,
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP
+);
+Le backend devra systématiquement appliquer le contexte institutionnel à chaque requête.
+Je recommande également :
+- Des contraintes d'intégrité composées avec institution_id.
+- Des politiques PostgreSQL Row Level Security (RLS) comme défense supplémentaire.
+- Une vérification des permissions au niveau applicatif.
+- Des tests automatisés de non-fuite de données entre institutions.
+Attention : le fait de masquer les données dans l'interface ne suffit pas. L'isolation doit être garantie côté serveur et base de données.
+7. Architecture d'hébergement hybride
+L'hébergement hybride devra combiner une infrastructure centralisée et des ressources locales.
+Pour ce projet, je recommande de ne pas mettre en place deux bases de données principales qui accepteraient simultanément les mêmes modifications. Cela créerait des conflits de synchronisation.
+7.1. Architecture recommandée
+7.2. Répartition des responsabilités
+Composant	Emplacement	Responsabilité
+Application centrale	Cloud	Exécution de la plateforme
+Base principale	Cloud	Source de vérité
+Interface web	Cloud	Accès institutionnel
+Passerelle locale	COUSP	Accès aux ressources locales
+Cache documentaire	COUSP	Accès aux documents autorisés
+Réplication de secours	Local ou second site	Continuité et reprise
+Sauvegardes	Site distinct	Restauration après incident
+Le cloud sera la source de vérité initiale. Le nœud local servira à l'intégration, au stockage autorisé, à la supervision et à la continuité selon les capacités retenues.
+La synchronisation des modifications métier hors ligne n'est pas incluse dans la première version, conformément à ta décision.
+7.3. Continuité de service
+Le système devra prévoir :
+- Une surveillance de la disponibilité des services.
+- Une sauvegarde quotidienne de la base.
+- Une réplication de secours.
+- Des tests réguliers de restauration.
+- Une procédure de basculement documentée.
+- Une procédure de retour vers le site principal.
+Les objectifs RPO et RTO devront être validés avec le COUSP. À titre de cible initiale, on peut proposer un RPO de 15 minutes et un RTO de 4 heures, sous réserve des moyens d'infrastructure et des tests.
+PARTIE III – CONCEPTION UML
+8. Diagramme des cas d'utilisation
+Ce diagramme décrit les interactions entre les différents profils et l'application.
+9. Diagramme de séquence : création et validation d'une tâche
+Ce diagramme est particulièrement important, car il représente le processus central du système.
+10. Diagramme d'activité : cycle de vie d'une tâche
+11. Diagramme de classes conceptuel
+Il présente les principales entités et leurs relations.
+Ces diagrammes constituent le modèle conceptuel initial. Les cardinalités et associations seront précisées dans le modèle physique.
+PARTIE IV – MODÈLE DE BASE DE DONNÉES
+12. Principes de conception
+La base de données sera PostgreSQL.
+Je recommande les conventions suivantes :
+- Identifiants techniques UUID.
+- Clés étrangères pour toutes les relations nécessaires.
+- Dates stockées en UTC.
+- Affichage des dates selon le fuseau horaire de l'utilisateur.
+- Colonnes created_at et updated_at.
+- Suppression logique pour les données métier lorsque nécessaire.
+- Indexation des colonnes utilisées pour les recherches.
+- Historisation des opérations importantes.
+- Isolation des données par institution.
+Les noms des tables et colonnes seront en anglais pour assurer la cohérence du code. Les libellés de l'interface seront traduits en français et en anglais.
+13. Structure détaillée des tables
+Je propose de répartir les tables en dix domaines fonctionnels.
+Domaine A – Institutions et organisation
+A1. institutions
+Champ	Type	Description
+id	UUID	Identifiant
+name	VARCHAR(200)	Nom de l'institution
+code	VARCHAR(30)	Code unique
+description	TEXT	Description
+country_code	CHAR(2)	Pays
+timezone	VARCHAR(60)	Fuseau horaire
+default_language	VARCHAR(5)	Langue par défaut
+status	VARCHAR(20)	Statut
+created_at	TIMESTAMP	Création
+updated_at	TIMESTAMP	Modification
+A2. organization_units
+Représente les directions, divisions, services, cellules et équipes.
+Champ	Type	Description
+id	UUID	Identifiant
+institution_id	UUID	Institution propriétaire
+parent_id	UUID nullable	Structure parente
+name	VARCHAR(200)	Nom
+code	VARCHAR(30)	Code
+unit_type	VARCHAR(30)	Type de structure
+description	TEXT	Description
+manager_id	UUID nullable	Responsable
+is_active	BOOLEAN	État
+A3. user_unit_memberships
+Permet à un agent d'appartenir à plusieurs structures.
+Champ	Type
+id	UUID
+institution_id	UUID
+user_id	UUID
+organization_unit_id	UUID
+membership_type	VARCHAR(30)
+is_primary	BOOLEAN
+started_at	DATE
+ended_at	DATE nullable
+Domaine B – Utilisateurs et permissions
+B1. users
+Champ	Type
+id	UUID
+name	VARCHAR(150)
+email	VARCHAR(190)
+phone	VARCHAR(30)
+password	VARCHAR(255)
+preferred_language	VARCHAR(5)
+email_verified_at	TIMESTAMP nullable
+status	VARCHAR(20)
+last_login_at	TIMESTAMP nullable
+created_at	TIMESTAMP
+updated_at	TIMESTAMP
+B2. institution_user_memberships
+Un même compte peut avoir accès à plusieurs institutions, selon les autorisations.
+Champ	Type
+id	UUID
+institution_id	UUID
+user_id	UUID
+status	VARCHAR(20)
+joined_at	TIMESTAMP
+B3. roles
+Champ	Type
+id	UUID
+institution_id	UUID nullable
+name	VARCHAR(100)
+code	VARCHAR(50)
+description	TEXT
+B4. permissions
+Champ	Type
+id	UUID
+code	VARCHAR(100)
+module	VARCHAR(50)
+description	TEXT
+B5. role_permissions
+- id
+- role_id
+- permission_id
+B6. user_roles
+- id
+- institution_id
+- user_id
+- role_id
+- organization_unit_id nullable
+Le rôle sera ainsi applicable à une institution ou à une unité organisationnelle précise.
+Domaine C – Gestion des tâches
+C1. tasks
+C'est la table centrale de l'application.
+Champ	Type	Description
+id	UUID	Identifiant
+institution_id	UUID	Propriétaire
+organization_unit_id	UUID	Service concerné
+parent_task_id	UUID nullable	Tâche parente
+reference	VARCHAR(40)	Référence unique
+title	VARCHAR(255)	Intitulé
+description	TEXT	Description
+task_type	VARCHAR(30)	Administrative / Operational
+priority	VARCHAR(20)	Priorité
+status	VARCHAR(30)	Statut
+created_by	UUID	Créateur
+start_at	TIMESTAMP	Début
+due_at	TIMESTAMP	Échéance
+completed_at	TIMESTAMP nullable	Fin d'exécution
+validated_at	TIMESTAMP nullable	Validation finale
+estimated_hours	DECIMAL(8,2)	Durée estimée
+progress	SMALLINT	Progression indicative
+created_at	TIMESTAMP	Création
+updated_at	TIMESTAMP	Modification
+deleted_at	TIMESTAMP nullable	Suppression logique
+C2. task_assignments
+Champ	Type	Description
+id	UUID	Identifiant
+institution_id	UUID	Institution
+task_id	UUID	Tâche
+user_id	UUID	Agent
+assignment_role	VARCHAR(30)	Responsable / Collaborateur
+assigned_by	UUID	Auteur de l'affectation
+assigned_at	TIMESTAMP	Date
+accepted_at	TIMESTAMP nullable	Prise en charge
+C3. task_status_history
+Conserve tous les changements de statut.
+- id
+- institution_id
+- task_id
+- previous_status
+- new_status
+- changed_by
+- reason
+- changed_at
+C4. task_comments
+- id
+- institution_id
+- task_id
+- user_id
+- content
+- created_at
+C5. task_checklists
+- id
+- institution_id
+- task_id
+- title
+- is_required
+- position
+C6. task_checklist_items
+- id
+- checklist_id
+- title
+- is_completed
+- completed_by
+- completed_at
+C7. task_attachments
+- id
+- institution_id
+- task_id
+- uploaded_by
+- file_name
+- mime_type
+- file_size
+- storage_path
+- checksum
+- created_at
+Domaine D – Validation hiérarchique
+Il faut séparer la configuration du circuit de validation de son exécution.
+D1. approval_templates
+Définit les circuits réutilisables.
+Champ	Type
+id	UUID
+institution_id	UUID
+name	VARCHAR(150)
+task_type	VARCHAR(30)
+organization_unit_id	UUID nullable
+is_active	BOOLEAN
+D2. approval_template_steps
+Champ	Type
+id	UUID
+template_id	UUID
+step_order	INTEGER
+approver_role_id	UUID nullable
+approver_user_id	UUID nullable
+approval_mode	VARCHAR(20)
+is_required	BOOLEAN
+D3. approval_workflows
+Champ	Type
+id	UUID
+institution_id	UUID
+task_id	UUID
+template_id	UUID
+current_step	INTEGER
+status	VARCHAR(30)
+started_at	TIMESTAMP
+completed_at	TIMESTAMP nullable
+D4. approval_steps
+Champ	Type
+id	UUID
+institution_id	UUID
+workflow_id	UUID
+step_order	INTEGER
+approver_id	UUID
+status	VARCHAR(30)
+decision	VARCHAR(30)
+comments	TEXT
+decided_at	TIMESTAMP nullable
+Les décisions devront être historisées. Une validation ne devra pas pouvoir être modifiée silencieusement.
+Domaine E – Missions et urgences sanitaires
+E1. health_events
+- id
+- institution_id
+- reference
+- title
+- event_type
+- description
+- location
+- severity
+- status
+- start_at
+- end_at
+- coordinator_id
+E2. operational_missions
+- id
+- institution_id
+- health_event_id nullable
+- task_id
+- mission_reference
+- destination
+- objectives
+- departure_at
+- return_at
+- mission_leader_id
+- report_status
+E3. mission_members
+- id
+- mission_id
+- user_id
+- assignment
+- participation_status
+Domaine F – Réunions et recommandations
+Tables :
+- meetings
+- meeting_participants
+- meeting_minutes
+- recommendations
+Une recommandation devra pouvoir être convertie en tâche avec conservation de sa référence d'origine.
+Domaine G – Notifications
+notifications
+- id
+- institution_id
+- user_id
+- notification_type
+- title
+- message
+- related_entity_type
+- related_entity_id
+- channel
+- read_at
+- created_at
+Domaine H – Reporting
+Tables prévisionnelles :
+- report_templates
+- generated_reports
+- report_exports
+Les statistiques simples seront calculées depuis les tables métier. Des vues matérialisées pourront être introduites lorsque les volumes le justifieront.
+Domaine I – Audit et sécurité
+Tables :
+- audit_logs
+- login_histories
+- user_sessions
+- security_events
+Les journaux d'audit devront être protégés contre la modification par les utilisateurs ordinaires.
+Domaine J – Paramétrage et internationalisation
+Tables :
+- institution_settings
+- system_settings
+- translations si des contenus traduisibles sont gérés dynamiquement.
+Les libellés de l'application pourront également être gérés dans les fichiers de traduction de Next.js et Laravel.
+14. Relations et contraintes d'intégrité
+Les relations fondamentales seront les suivantes :
+Relation	Cardinalité
+Institution → Services	1:N
+Institution → Utilisateurs autorisés	N:N
+Institution → Tâches	1:N
+Structure → Utilisateurs	N:N
+Utilisateur → Rôles	N:N
+Tâche → Affectations	1:N
+Tâche → Commentaires	1:N
+Tâche → Documents	1:N
+Tâche → Workflow	1:0..1
+Workflow → Étapes	1:N
+Réunion → Recommandations	1:N
+Recommandation → Tâches	1:N
+Événement sanitaire → Tâches	1:N
+Mission → Participants	1:N
+Contraintes importantes
+1. Une tâche et son affectation doivent appartenir à la même institution.
+2. Un approbateur doit être autorisé dans l'institution concernée.
+3. Une structure ne peut pas avoir pour parent une structure d'une autre institution.
+4. Une référence de tâche doit être unique dans son institution.
+5. Une validation ne peut être effectuée que par un utilisateur autorisé à l'étape concernée.
+6. Une tâche validée ne peut être rouverte que selon une procédure autorisée et historisée.
+15. Exemple de structure de référence
+Pour faciliter l'identification des tâches :
+COUSP-2026-000001
+COUSP-2026-000002
+INSP-2026-000001
+INSP-2026-000002
+La référence sera générée automatiquement par institution et par année.
+PARTIE V – SPÉCIFICATIONS DES API REST
+16. Principes généraux
+Le backend Laravel exposera une API REST versionnée.
+Adresse de base
+https://api.cousp-task.org/api/v1
+Format des échanges
+Content-Type
+application/json
+Format de date
+ISO 8601 / UTC
+Identifiants
+UUID
+Version
+v1
+L'adresse de domaine présentée est illustrative et devra être remplacée par le domaine officiel du projet.
+17. Authentification et autorisation
+Je recommande une authentification par jetons sécurisés adaptée aux clients Web et Mobile.
+Deux possibilités :
+- Laravel Sanctum pour une architecture maîtrisée avec sessions Web et tokens mobiles.
+- Un fournisseur OpenID Connect/OAuth2, par exemple Keycloak, si le COUSP souhaite un système centralisé d'identité et du SSO institutionnel.
+Pour la première version, Sanctum est une solution raisonnable, sous réserve de valider les exigences de sécurité et d'intégration institutionnelle.
+17.1. Endpoints d'authentification
+Méthode	Endpoint	Fonction
+POST	/auth/login	Connexion
+POST	/auth/logout	Déconnexion
+GET	/auth/me	Profil connecté
+POST	/auth/refresh	Renouvellement selon mécanisme retenu
+POST	/auth/forgot-password	Réinitialisation
+POST	/auth/reset-password	Nouveau mot de passe
+POST	/auth/change-password	Changement de mot de passe
+17.2. Exemple de connexion
+Requête :
+{
+  "email": "agent@cousp.cd",
+  "password": "MotDePasseSecurise",
+  "institution_code": "COUSP",
+  "device_name": "Android-Application"
+}
+Réponse :
+{
+  "success": true,
+  "message": "Connexion réussie",
+  "data": {
+    "access_token": "TOKEN_EXAMPLE",
+    "token_type": "Bearer",
+    "expires_at": "2026-11-23T16:00:00Z",
+    "user": {
+      "id": "uuid-user",
+      "name": "Agent COUSP",
+      "email": "agent@cousp.cd",
+      "preferred_language": "fr"
+    },
+    "institution": {
+      "id": "uuid-institution",
+      "name": "COUSP",
+      "code": "COUSP"
+    }
+  }
+}
+En production, le mot de passe ne sera jamais renvoyé ni journalisé. Le token présenté ici est fictif. Les tokens seront transmis uniquement via HTTPS et stockés dans des espaces sécurisés.
+18. API des institutions
+Méthode	Endpoint	Fonction
+GET	/institutions	Liste des institutions accessibles
+POST	/institutions	Création d'une institution
+GET	/institutions/{id}	Détails
+PUT	/institutions/{id}	Modification
+GET	/institutions/{id}/settings	Paramètres
+PUT	/institutions/{id}/settings	Modification des paramètres
+Ces endpoints de gestion globale seront réservés aux administrateurs de plateforme ou aux profils autorisés.
+19. API des structures organisationnelles
+Méthode	Endpoint	Fonction
+GET	/organization-units	Liste des structures
+POST	/organization-units	Création
+GET	/organization-units/{id}	Détails
+PUT	/organization-units/{id}	Modification
+DELETE	/organization-units/{id}	Désactivation
+GET	/organization-units/{id}/members	Membres
+POST	/organization-units/{id}/members	Affecter un membre
+20. API des utilisateurs
+Méthode	Endpoint	Fonction
+GET	/users	Liste
+POST	/users	Création
+GET	/users/{id}	Détails
+PUT	/users/{id}	Modification
+PATCH	/users/{id}/status	Activation/désactivation
+GET	/users/{id}/tasks	Tâches de l'utilisateur
+POST	/users/{id}/roles	Attribution d'un rôle
+21. API de gestion des tâches
+C'est le groupe d'API le plus important.
+Méthode	Endpoint	Fonction
+GET	/tasks	Liste des tâches autorisées
+POST	/tasks	Création
+GET	/tasks/{id}	Détails
+PUT	/tasks/{id}	Modification
+DELETE	/tasks/{id}	Suppression logique autorisée
+POST	/tasks/{id}/assignments	Affectation
+DELETE	/tasks/{id}/assignments/{assignmentId}	Retrait d'un collaborateur
+PATCH	/tasks/{id}/status	Changement de statut
+PATCH	/tasks/{id}/progress	Mise à jour de progression
+POST	/tasks/{id}/submit	Soumission du travail
+POST	/tasks/{id}/comments	Ajouter un commentaire
+GET	/tasks/{id}/history	Historique
+GET	/tasks/{id}/attachments	Documents
+POST	/tasks/{id}/attachments	Téléversement
+21.1. Exemple de création de tâche
+Requête :
+POST /api/v1/tasks
+Authorization: Bearer TOKEN
+Content-Type: application/json
+Corps :
+{
+  "organization_unit_id": "uuid-service",
+  "title": "Préparation du rapport hebdomadaire",
+  "description": "Consolider les activités de surveillance.",
+  "task_type": "administrative",
+  "priority": "high",
+  "start_at": "2026-11-24T08:00:00Z",
+  "due_at": "2026-11-27T14:00:00Z",
+  "estimated_hours": 8,
+  "assignees": [
+    {
+      "user_id": "uuid-agent",
+      "role": "responsible"
+    },
+    {
+      "user_id": "uuid-collaborator",
+      "role": "collaborator"
+    }
+  ],
+  "approval_template_id": "uuid-template",
+  "expected_result": "Rapport hebdomadaire validé"
+}
+Réponse :
+{
+  "success": true,
+  "message": "Tâche créée avec succès",
+  "data": {
+    "id": "uuid-task",
+    "reference": "COUSP-2026-000001",
+    "title": "Préparation du rapport hebdomadaire",
+    "task_type": "administrative",
+    "status": "todo",
+    "priority": "high",
+    "approval_status": "pending",
+    "created_at": "2026-11-23T13:00:00Z"
+  }
+}
+Le backend devra vérifier la cohérence entre l'institution, le service, les agents et le circuit de validation avant de créer la tâche.
+22. API du workflow hiérarchique
+Méthode	Endpoint	Fonction
+GET	/approval-templates	Liste des circuits
+POST	/approval-templates	Création
+PUT	/approval-templates/{id}	Modification
+GET	/tasks/{id}/approvals	Consulter les validations
+POST	/tasks/{id}/approve	Approuver
+POST	/tasks/{id}/reject	Rejeter
+POST	/tasks/{id}/request-correction	Demander une correction
+Exemple d'approbation :
+{
+  "comments": "Le rapport est conforme aux exigences.",
+  "decision": "approved"
+}
+Exemple de rejet :
+{
+  "comments": "Veuillez compléter la partie relative aux activités de terrain.",
+  "decision": "rejected",
+  "correction_required": true
+}
+Le serveur devra déterminer lui-même le valideur autorisé et l'étape courante. Il ne devra pas faire confiance à un identifiant de valideur librement envoyé par le client.
+23. API des réunions et recommandations
+Méthode	Endpoint	Fonction
+GET	/meetings	Liste
+POST	/meetings	Créer une réunion
+GET	/meetings/{id}	Détails
+PUT	/meetings/{id}	Modifier
+POST	/meetings/{id}/participants	Ajouter participants
+POST	/meetings/{id}/recommendations	Ajouter recommandation
+GET	/recommendations	Liste des recommandations
+POST	/recommendations/{id}/convert-to-task	Transformer en tâche
+24. API des missions opérationnelles
+Méthode	Endpoint	Fonction
+GET	/health-events	Événements
+POST	/health-events	Créer un événement
+GET	/health-events/{id}	Détails
+POST	/health-events/{id}/tasks	Créer une tâche associée
+GET	/missions	Liste des missions
+POST	/missions	Créer une mission
+GET	/missions/{id}	Détails
+POST	/missions/{id}/members	Affecter une équipe
+POST	/missions/{id}/report	Soumettre un rapport
+25. API du tableau de bord et des rapports
+Méthode	Endpoint	Fonction
+GET	/dashboard/overview	Vue générale
+GET	/dashboard/tasks	Statistiques des tâches
+GET	/dashboard/overdue	Tâches en retard
+GET	/dashboard/performance	Performances
+GET	/reports/tasks	Rapport des tâches
+GET	/reports/institutions	Rapport institutionnel
+GET	/reports/units	Rapport par service
+POST	/reports/export	Génération d'un export
+Les données retournées seront filtrées selon le rôle et le périmètre institutionnel de l'utilisateur.
+26. API des notifications
+Méthode	Endpoint	Fonction
+GET	/notifications	Liste
+PATCH	/notifications/{id}/read	Marquer comme lue
+POST	/notifications/read-all	Tout marquer comme lu
+GET	/notifications/unread-count	Nombre de notifications non lues
+PUT	/notification-preferences	Préférences
+27. Format standard des réponses API
+Réponse réussie :
+{
+  "success": true,
+  "message": "Opération effectuée",
+  "data": {},
+  "meta": {
+    "timestamp": "2026-11-23T13:00:00Z"
+  }
+}
+Réponse d'erreur :
+{
+  "success": false,
+  "message": "Une erreur est survenue",
+  "errors": {
+    "title": [
+      "Le titre est obligatoire."
+    ]
+  },
+  "code": "VALIDATION_ERROR"
+}
+Codes HTTP à utiliser :
+Code	Signification
+200	Succès
+201	Création réussie
+204	Opération réussie sans contenu
+400	Requête incorrecte
+401	Non authentifié
+403	Permission refusée
+404	Ressource introuvable
+409	Conflit métier
+422	Erreur de validation
+429	Trop de requêtes
+500	Erreur interne
+27.1. Pagination et filtrage
+Exemple :
+GET /api/v1/tasks?page=1&per_page=20&status=in_progress&priority=high&task_type=operational&sort=-due_at
+Les filtres devront être combinables et les tailles de page plafonnées.
+PARTIE VI – RÈGLES MÉTIER ET SÉCURITÉ
+28. Règles métier fondamentales
+Voici les règles que le backend devra obligatoirement appliquer.
+Réf.	Règle	Comportement attendu
+RM01	Institution	Chaque tâche appartient à une institution
+RM02	Attribution	Une tâche doit avoir un responsable principal
+RM03	Collaborateurs	Plusieurs agents peuvent collaborer
+RM04	Échéance	Une date limite ne peut précéder la date de début
+RM05	Validation	La validation suit le circuit hiérarchique
+RM06	Correction	Une tâche rejetée retourne à l'exécution
+RM07	Retard	Détection automatique après échéance
+RM08	Historique	Chaque changement important est enregistré
+RM09	Suppression	Une tâche validée ne peut pas être supprimée normalement
+RM10	Partage	Le partage entre institutions exige une autorisation
+RM11	Notifications	Les personnes concernées sont informées
+RM12	Clôture	Seule la dernière validation clôture le workflow
+28.1. Gestion des priorités
+Je propose quatre niveaux :
+- Low : basse.
+- Normal : normale.
+- High : élevée.
+- Critical : critique.
+Une tâche critique pourra déclencher une notification immédiate aux responsables concernés.
+28.2. Gestion des retards
+Le retard sera calculé automatiquement :
+SI date_actuelle > date_limite
+ET tâche non validée
+ALORS tâche_en_retard = true
+Il faut distinguer trois informations :
+- Le statut opérationnel.
+- Le statut de validation.
+- L'indicateur de retard.
+Cela permettra de savoir qu'une tâche est, par exemple, en cours, en attente de validation ou en retard sans mélanger ces informations.
+29. Sécurité et gouvernance des données
+Pour un système institutionnel de santé publique, la sécurité doit être intégrée dès la conception.
+29.1. Matrice d'autorisation
+Fonction	Agent	Chef de service	Coordonnateur	Admin institutionnel
+Consulter ses tâches	Oui	Oui	Oui	Oui
+Créer une tâche	Selon droit	Oui	Oui	Oui
+Attribuer une tâche	Non par défaut	Oui	Oui	Oui
+Exécuter une tâche	Oui	Oui	Oui	Oui
+Valider une tâche	Selon délégation	Selon workflow	Selon workflow	Selon workflow
+Consulter son service	Non	Oui	Oui	Oui
+Consulter toute l'institution	Non	Selon autorisation	Oui	Oui
+Gérer les utilisateurs	Non	Non	Selon autorisation	Oui
+Gérer les paramètres	Non	Non	Non par défaut	Oui
+Le super administrateur de plateforme devra être un rôle distinct de l'administrateur institutionnel.
+29.2. Mesures de protection
+- HTTPS obligatoire.
+- Hachage sécurisé des mots de passe avec Argon2id ou mécanisme Laravel équivalent.
+- MFA pour les comptes privilégiés.
+- Gestion des sessions et révocation des tokens.
+- Limitation des tentatives de connexion.
+- Protection contre les injections SQL et XSS.
+- Vérification des permissions sur chaque endpoint.
+- Isolation des données multi-institutionnelles.
+- Chiffrement des sauvegardes.
+- Analyse antivirus des documents téléversés.
+- Journalisation des accès et validations.
+- Politique de conservation et d'archivage.
+- Tests réguliers de sécurité.
+29.3. Confidentialité institutionnelle
+Il faudra distinguer :
+1. Les informations administratives.
+2. Les informations opérationnelles.
+3. Les informations confidentielles.
+4. Les informations sensibles relatives aux événements sanitaires.
+L'accès à ces catégories devra être défini par les autorités compétentes.
+L'application devra également prévoir une politique de conservation des données, des mécanismes d'export autorisé et des procédures de gestion des incidents de sécurité.
+PARTIE VII – WEB, MOBILE ET MULTILINGUISME
+30. Application Web
+dribbble.com
+L'application web sera principalement destinée :
+- Aux administrateurs.
+- Aux coordonnateurs.
+- Aux responsables de directions.
+- Aux chefs de services.
+- Aux agents travaillant depuis un bureau.
+Elle comportera notamment :
+- Un tableau de bord.
+- Un menu latéral institutionnel.
+- Un gestionnaire de tâches.
+- Un calendrier.
+- Une vue Kanban.
+- Une vue tableau.
+- Un centre de notifications.
+- Un espace documentaire.
+- Un espace de reporting.
+31. Application Mobile
+dribbble.com
+L'application mobile sera développée avec React Native.
+Elle devra permettre :
+Fonctionnalité	Disponibilité
+Connexion	V1
+Consultation des tâches	V1
+Réception des notifications	V1
+Création de tâches autorisées	V1
+Attribution de tâches	V1
+Mise à jour des statuts	V1
+Commentaires	V1
+Téléversement de photos et documents	V1
+Soumission de rapports	V1
+Validation hiérarchique	V1
+Géolocalisation des missions	Selon autorisation, V1
+Fonctionnement hors connexion	Phase ultérieure
+La géolocalisation devra être facultative, limitée aux besoins opérationnels et soumise à une autorisation explicite.
+31.1. Navigation mobile proposée
+COUSP TASK
+Bonjour, Agent
+Mes activités
+12
+Mes tâches
+3
+En retard
+Tâches récentes
+Rapport de surveillance
+En cours
+Échéance : 27 novembre
+Préparation de réunion
+À faire
+Échéance : 25 novembre
+Illustration conceptuelle de la navigation mobile, non une maquette finale.
+32. Gestion des langues
+L'application sera bilingue dès la première version.
+Langues initiales
+- Français : fr
+- Anglais : en
+Chaque utilisateur pourra choisir sa langue préférée.
+Exemple :
+Français	English
+Tableau de bord	Dashboard
+Mes tâches	My Tasks
+Nouvelle tâche	New Task
+En cours	In Progress
+En attente	Pending
+En retard	Overdue
+Soumettre	Submit
+Valider	Approve
+Rejeter	Reject
+Rapport	Report
+Les contenus saisis par les agents, comme les descriptions et commentaires, ne seront pas automatiquement traduits. Seuls les libellés et messages standardisés seront bilingues, sauf ajout ultérieur d'une fonctionnalité de traduction.
+PARTIE VIII – TESTS ET VALIDATION
+33. Stratégie de tests
+Avant la mise en production, l'application devra passer plusieurs catégories de tests.
+Type de test	Objectif
+Tests unitaires	Vérifier les fonctions métier
+Tests d'intégration	Vérifier les échanges entre modules
+Tests API	Contrôler les endpoints
+Tests multi-tenant	Garantir l'isolation des institutions
+Tests de permissions	Vérifier les accès
+Tests workflow	Vérifier les validations
+Tests mobiles	Android et iOS
+Tests de performance	Résistance aux charges
+Tests de sécurité	Identifier les vulnérabilités
+Tests de restauration	Vérifier les sauvegardes
+33.1. Scénarios de tests prioritaires
+Test 1 : Isolation institutionnelle
+- Créer un compte COUSP.
+- Créer un compte INSP.
+- Créer une tâche dans chaque institution.
+- Tenter d'accéder aux tâches de l'autre institution.
+Résultat attendu : aucun accès non autorisé.
+Test 2 : Validation hiérarchique
+- Un agent crée et exécute une tâche.
+- Il soumet son livrable.
+- Le chef de service valide.
+- Le responsable suivant valide.
+Résultat attendu : la tâche n'est clôturée qu'après la dernière validation obligatoire.
+Test 3 : Rejet
+- Le validateur rejette le livrable.
+- L'agent reçoit une notification.
+- La tâche revient à l'état de correction.
+Résultat attendu : l'historique conserve le rejet et son motif.
+Test 4 : Retard
+- Créer une tâche avec une échéance passée.
+- Exécuter le traitement automatique.
+Résultat attendu : la tâche apparaît dans les retards et les personnes concernées sont notifiées.
+Test 5 : Application mobile
+- Se connecter sur Android.
+- Consulter une tâche.
+- Ajouter un commentaire.
+- Joindre un document.
+- Soumettre le travail.
+Résultat attendu : les données sont correctement enregistrées sur la plateforme centrale.
+PARTIE IX – DÉPLOIEMENT ET ORGANISATION DU PROJET
+34. Environnements techniques
+Je recommande quatre environnements.
+Environnement	Utilisation
+Development	Développement quotidien
+Testing	Tests automatisés
+Staging	Validation institutionnelle
+Production	Exploitation réelle
+Aucune donnée réelle sensible ne devra être utilisée librement dans l'environnement de développement.
+35. Organisation des dépôts Git
+Je recommande un monorepo pour faciliter la gestion du projet.
+cousp-task-manager/
+│
+├── apps/
+│   ├── web/                  # Next.js
+│   └── mobile/               # React Native
+│
+├── backend/
+│   └── api/                  # Laravel
+│
+├── packages/
+│   ├── shared-types/
+│   ├── api-client/
+│   └── shared-config/
+│
+├── infrastructure/
+│   ├── docker/
+│   ├── nginx/
+│   ├── postgres/
+│   └── monitoring/
+│
+├── documentation/
+│   ├── cahier-des-charges/
+│   ├── architecture/
+│   ├── uml/
+│   └── api/
+│
+├── scripts/
+│
+└── README.md
+Cette organisation permettra de centraliser les contrats API, les types partagés et la documentation.
+36. Plan de réalisation actualisé
+Avec le développement Web et Mobile dès la première version, voici un calendrier plus réaliste.
+Planning prévisionnel
+1. Phase 1 – Analyse et conception
+   3 semaines
+   Validation du périmètre, architecture, UML et base de données.
+2. Phase 2 – Infrastructure et socle technique
+   2 semaines
+   Dépôts Git, Docker, authentification et multi-tenancy.
+3. Phase 3 – Backend et API
+   4 semaines
+   Gestion des utilisateurs, tâches, workflows et notifications.
+4. Phase 4 – Application Web
+   3 semaines
+   Interface institutionnelle et tableaux de bord.
+5. Phase 5 – Application Mobile
+   4 semaines
+   Android/iOS et intégration API.
+6. Phase 6 – Tests et sécurité
+   3 semaines
+   Tests fonctionnels, multi-institutionnels et sécurité.
+7. Phase 7 – Déploiement et formation
+   2 semaines
+   Mise en production, formation et accompagnement.
+Durée totale estimative
+21 semaines
+Planning indicatif avec certaines activités pouvant être réalisées en parallèle, selon la taille de l'équipe.
+PARTIE X – POINTS À ARBITRER AVANT LE DÉVELOPPEMENT
+Il reste quelques décisions institutionnelles et techniques à confirmer. Je propose les hypothèses suivantes comme base de travail.
+Sujet	Proposition
+Base multi-tenant	Base partagée avec isolation stricte
+Comptes utilisateurs	Un compte pouvant appartenir à plusieurs institutions
+Validation	Plusieurs niveaux configurables
+Responsable d'une tâche	Un responsable principal, plusieurs collaborateurs
+Partage interinstitutionnel	Sur autorisation explicite
+Application mobile	Android et iOS
+Hébergement principal	Cloud
+Infrastructure locale	Passerelle et ressources de continuité
+Hors connexion	Non inclus en V1
+Langues	Français et anglais
+Suppression des tâches	Archivage logique et traçabilité
+Ces hypothèses ne doivent pas être considérées comme des décisions officielles du COUSP avant leur validation.
+37. Équipe technique recommandée
+Pour réaliser le projet dans de bonnes conditions :
+Fonction	Responsabilité
+Chef de projet	Coordination et suivi
+Analyste fonctionnel	Formalisation des besoins
+Architecte logiciel	Architecture et conception
+Développeur Laravel	Backend et API
+Développeur Next.js	Application Web
+Développeur React Native	Application mobile
+UI/UX Designer	Expérience utilisateur
+DBA / DevOps	Base de données et infrastructure
+QA / Testeur	Contrôle qualité
+Référents COUSP / INSP	Validation métier
+Une équipe réduite peut cumuler certaines responsabilités, mais les fonctions de validation métier et de contrôle de sécurité doivent rester clairement identifiées.
+38. Conclusion et recommandation
+Le projet COUSP Task Manager doit être envisagé comme une plateforme institutionnelle de coordination et de pilotage des activités, et non comme un simple gestionnaire de tâches.
+Son architecture permettra :
+1. De gérer plusieurs institutions sur une plateforme commune.
+2. De contrôler les responsabilités à chaque niveau hiérarchique.
+3. De suivre les activités administratives et les missions de terrain.
+4. De transformer les décisions des réunions en actions suivies.
+5. De mesurer les performances institutionnelles.
+6. D'assurer une traçabilité des décisions et des validations.
+7. De fonctionner sur le Web et les appareils mobiles.
+8. D'évoluer progressivement vers une plateforme plus complète de gestion opérationnelle des urgences sanitaires.
+Ma recommandation technique : commencer par construire un socle robuste comprenant le multi-tenant, l'organisation institutionnelle, les utilisateurs, la gestion des tâches et le workflow hiérarchique. Tous les autres modules devront s'appuyer sur ce socle.
+39. Prochaine étape : passer de la conception au développement
+Je te propose de ne pas commencer directement par les écrans. Il faut d'abord finaliser les fondations techniques.
+Voici l'ordre de travail que je recommande :
+Feuille de route de conception
+Recommandée
+Progression de validation
+0/7
+[ ] Finaliser le modèle conceptuel de données (MCD)
+[ ] Produire le modèle logique et physique (MLD/MPD) PostgreSQL
+[ ] Définir les migrations Laravel
+[ ] Définir les permissions détaillées et les règles multi-tenant
+[ ] Définir les contrats OpenAPI/Swagger
+[ ] Créer les maquettes UX/UI Web et Mobile
+[ ] Construire le socle technique et le dépôt Git
+Je te conseille de commencer par le MCD et le MLD/MPD PostgreSQL. C'est la fondation qui évitera de devoir reconstruire la base de données lorsque les modules de validation, de missions et de reporting seront développés.
+Le prochain livrable devrait être un véritable dossier de base de données comprenant les relations, les contraintes, les index, les migrations Laravel et le diagramme ERD complet.

@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'ok' => 'Operation successful',
+    'created' => 'Created successfully',
+    'updated' => 'Changes saved',
+    'deactivated' => 'Deactivated',
+    'login_success' => 'Login successful',
+    'logout_success' => 'Logged out',
+    'password_changed' => 'Password changed',
+    'forbidden' => 'Permission denied',
+    'unauthenticated' => 'Authentication required',
+    'not_found' => 'Resource not found',
+    'validation_error' => 'The submitted data is invalid',
+    'server_error' => 'An error occurred',
+    'too_many_requests' => 'Too many requests, please try again later',
+    'account_inactive' => 'This account is disabled',
+    'institution_required' => 'Please specify an institution you have access to',
+    'institution_forbidden' => 'You do not have access to this institution',
+    'user_not_in_institution' => 'This user does not belong to the institution',
+    'user_already_member' => 'This user is already a member of the institution',
+    'cannot_change_own_status' => 'You cannot change the status of your own account',
+    'unit_cycle' => 'A unit cannot be attached to one of its own sub-units',
+    'member_added' => 'Member added to the unit',
+    'role_assigned' => 'Role assigned',
+];

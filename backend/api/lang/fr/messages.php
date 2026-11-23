@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'ok' => 'Opération effectuée',
+    'created' => 'Création réussie',
+    'updated' => 'Modification enregistrée',
+    'deactivated' => 'Désactivation effectuée',
+    'login_success' => 'Connexion réussie',
+    'logout_success' => 'Déconnexion réussie',
+    'password_changed' => 'Mot de passe modifié',
+    'forbidden' => 'Permission refusée',
+    'unauthenticated' => 'Authentification requise',
+    'not_found' => 'Ressource introuvable',
+    'validation_error' => 'Les données envoyées sont invalides',
+    'server_error' => 'Une erreur est survenue',
+    'too_many_requests' => 'Trop de requêtes, veuillez réessayer plus tard',
+    'account_inactive' => 'Ce compte est désactivé',
+    'institution_required' => 'Veuillez préciser une institution à laquelle vous avez accès',
+    'institution_forbidden' => 'Vous n\'avez pas accès à cette institution',
+    'user_not_in_institution' => 'Cet utilisateur n\'appartient pas à l\'institution',
+    'user_already_member' => 'Cet utilisateur est déjà membre de l\'institution',
+    'cannot_change_own_status' => 'Vous ne pouvez pas modifier le statut de votre propre compte',
+    'unit_cycle' => 'Une structure ne peut pas être rattachée à l\'une de ses sous-structures',
+    'member_added' => 'Membre ajouté à la structure',
+    'role_assigned' => 'Rôle attribué',
+];

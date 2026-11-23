@@ -1,0 +1,55 @@
+# Environnement de développement COUSP Task Manager
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: cousp_task
+      POSTGRES_USER: cousp
+      POSTGRES_PASSWORD: cousp_dev_password
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cousp -d cousp_task"]
+      interval: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+
+  mailpit:
+    image: axllent/mailpit:v1.20
+    ports: ["8025:8025", "1025:1025"]
+
+  api:
+    build:
+      context: ./backend/api
+      dockerfile: ../../infrastructure/docker/api.Dockerfile
+    env_file: ./backend/api/.env
+    environment:
+      DB_HOST: postgres
+      REDIS_HOST: redis
+      MAIL_HOST: mailpit
+    volumes: ["./backend/api:/var/www/html"]
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_started }
+
+  scheduler:
+    extends: api
+    command: php artisan schedule:work
+
+  queue:
+    extends: api
+    command: php artisan queue:work --tries=3
+
+  nginx:
+    image: nginx:1.27-alpine
+    ports: ["8000:80"]
+    volumes:
+      - ./infrastructure/nginx/api.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./backend/api:/var/www/html:ro
+    depends_on: [api]
+
+volumes:
+  pgdata:
