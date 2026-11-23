@@ -29,6 +29,11 @@ class TaskResource extends JsonResource
             'progress' => $this->progress,
             'organization_unit' => $this->whenLoaded('organizationUnit', fn () => ['id' => $this->organizationUnit->id, 'name' => $this->organizationUnit->name]),
             'parent_task_id' => $this->parent_task_id,
+            'health_event' => $this->whenLoaded('healthEvent', fn () => $this->healthEvent ? ['id' => $this->healthEvent->id, 'reference' => $this->healthEvent->reference, 'title' => $this->healthEvent->title] : null),
+            'recommendation' => $this->whenLoaded('recommendation', fn () => $this->recommendation ? [
+                'id' => $this->recommendation->id, 'reference' => $this->recommendation->reference, 'meeting_id' => $this->recommendation->meeting_id,
+            ] : null),
+            'mission' => $this->whenLoaded('mission', fn () => $this->mission ? ['id' => $this->mission->id, 'reference' => $this->mission->reference] : null),
             'start_at' => $iso($this->start_at),
             'due_at' => $iso($this->due_at),
             'submitted_at' => $iso($this->submitted_at),

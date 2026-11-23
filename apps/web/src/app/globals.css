@@ -12,7 +12,20 @@ body {
   .btn {
     @apply rounded-md bg-[var(--brand)] px-3 py-1.5 text-sm font-medium text-white hover:opacity-90;
   }
+  .input {
+    @apply w-full rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm;
+  }
+  .btn-danger {
+    @apply rounded-md bg-red-600 px-3 py-1.5 text-sm font-medium text-white hover:opacity-90;
+  }
   .btn-secondary {
     @apply rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-100;
+  }
+}
+
+@media print {
+  aside,
+  .no-print {
+    display: none !important;
   }
 }

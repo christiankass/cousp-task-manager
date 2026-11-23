@@ -37,6 +37,8 @@ class TaskController extends Controller
             'assignee' => ['nullable', 'string'],
             'overdue' => ['nullable', 'boolean'],
             'parent_task_id' => ['nullable', 'uuid'],
+            'health_event_id' => ['nullable', 'uuid'],
+            'recommendation_id' => ['nullable', 'uuid'],
             'due_from' => ['nullable', 'date'],
             'due_to' => ['nullable', 'date'],
             'sort' => ['nullable', 'string'],
@@ -54,6 +56,8 @@ class TaskController extends Controller
         }
         $query->when($request->filled('task_type'), fn ($q) => $q->where('task_type', $request->string('task_type')))
             ->when($request->filled('organization_unit_id'), fn ($q) => $q->where('organization_unit_id', $request->string('organization_unit_id')))
+            ->when($request->filled('health_event_id'), fn ($q) => $q->where('health_event_id', $request->string('health_event_id')))
+            ->when($request->filled('recommendation_id'), fn ($q) => $q->where('recommendation_id', $request->string('recommendation_id')))
             ->when($request->filled('parent_task_id'), fn ($q) => $q->where('parent_task_id', $request->string('parent_task_id')))
             ->when($request->boolean('root'), fn ($q) => $q->whereNull('parent_task_id'))
             ->when($request->boolean('overdue'), fn ($q) => $q->overdue())
@@ -86,6 +90,7 @@ class TaskController extends Controller
         $data = $request->validate($this->rules() + [
             'organization_unit_id' => ['required', 'uuid'],
             'parent_task_id' => ['nullable', 'uuid'],
+            'health_event_id' => ['nullable', 'uuid'],
             'assignees' => ['required', 'array', 'min:1', 'max:50'],
             'assignees.*.user_id' => ['required', 'uuid'],
             'assignees.*.role' => ['required', Rule::in(['responsible', 'collaborator'])],
@@ -206,7 +211,7 @@ class TaskController extends Controller
 
     private function loaded(Task $task): Task
     {
-        return $task->load(['organizationUnit', 'creator', 'assignments.user']);
+        return $task->load(['organizationUnit', 'creator', 'assignments.user', 'healthEvent', 'recommendation', 'mission']);
     }
 
     private function rules(): array

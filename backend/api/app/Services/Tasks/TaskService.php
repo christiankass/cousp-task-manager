@@ -4,6 +4,7 @@ namespace App\Services\Tasks;
 
 use App\Enums\TaskPriority;
 use App\Enums\TaskStatus;
+use App\Models\HealthEvent;
 use App\Models\InstitutionUserMembership;
 use App\Models\OrganizationUnit;
 use App\Models\Task;
@@ -54,10 +55,18 @@ class TaskService
             }
         }
 
+        if (! empty($data['health_event_id'])) {
+            $event = HealthEvent::query()->find($data['health_event_id'])
+                ?? throw ValidationException::withMessages(['health_event_id' => [__('validation.exists', ['attribute' => 'health_event_id'])]]);
+            if ($event->isClosed()) {
+                throw ValidationException::withMessages(['health_event_id' => [__('coordination.event_closed')]]);
+            }
+        }
+
         $task = DB::transaction(function () use ($data, $creator, $unit, $assignees) {
             $task = Task::query()->create([
                 ...collect($data)->only([
-                    'parent_task_id', 'title', 'description', 'expected_result', 'task_type', 'category',
+                    'parent_task_id', 'health_event_id', 'recommendation_id', 'title', 'description', 'expected_result', 'task_type', 'category',
                     'priority', 'start_at', 'due_at', 'estimated_hours', 'approval_template_id',
                 ])->all(),
                 'organization_unit_id' => $unit->id,
@@ -278,7 +287,7 @@ class TaskService
         return $assignees->all();
     }
 
-    private function ensureMember(string $userId, string $field): void
+    public function ensureMember(string $userId, string $field): void
     {
         $ok = InstitutionUserMembership::query()->where('user_id', $userId)->where('status', 'active')->exists();
         if (! $ok) {

@@ -76,6 +76,9 @@ export type Task = {
   created_by?: { id: string; name: string };
   assignees?: { assignment_id: string; user_id: string; name: string; role: "responsible" | "collaborator" }[];
   subtasks?: { id: string; reference: string; title: string; status: TaskStatus; is_overdue: boolean }[];
+  health_event?: { id: string; reference: string; title: string } | null;
+  recommendation?: { id: string; reference: string; meeting_id: string } | null;
+  mission?: { id: string; reference: string } | null;
   can?: { update: boolean; execute: boolean; submit: boolean; decide: boolean; delete: boolean };
 };
 
