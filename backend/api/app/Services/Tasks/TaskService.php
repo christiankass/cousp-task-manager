@@ -34,6 +34,7 @@ class TaskService
      */
     public function create(array $data, User $creator): Task
     {
+        $data = $this->normalizeDates($data);
         $unit = $this->unit($data['organization_unit_id']);
         $assignees = $this->normalizeAssignees($data['assignees']);
         $this->checkDates($data['start_at'] ?? null, $data['due_at'] ?? null);
@@ -66,7 +67,7 @@ class TaskService
         $task = DB::transaction(function () use ($data, $creator, $unit, $assignees) {
             $task = Task::query()->create([
                 ...collect($data)->only([
-                    'parent_task_id', 'health_event_id', 'recommendation_id', 'title', 'description', 'expected_result', 'task_type', 'category',
+                    'parent_task_id', 'health_event_id', 'recommendation_id', 'recurrence_id', 'occurrence_on', 'title', 'description', 'expected_result', 'task_type', 'category',
                     'priority', 'start_at', 'due_at', 'estimated_hours', 'approval_template_id',
                 ])->all(),
                 'organization_unit_id' => $unit->id,
@@ -116,6 +117,7 @@ class TaskService
             }
         }
 
+        $data = $this->normalizeDates($data);
         $start = array_key_exists('start_at', $data) ? $data['start_at'] : $task->start_at;
         $due = array_key_exists('due_at', $data) ? $data['due_at'] : $task->due_at;
         $this->checkDates($start, $due);
@@ -293,6 +295,21 @@ class TaskService
         if (! $ok) {
             throw ValidationException::withMessages([$field => [__('messages.user_not_in_institution')]]);
         }
+    }
+
+    /**
+     * Les dates reçues avec un décalage horaire (« +01:00 ») sont ramenées en UTC :
+     * la base stocke des horodatages sans fuseau, interprétés en UTC.
+     */
+    private function normalizeDates(array $data): array
+    {
+        foreach (['start_at', 'due_at'] as $key) {
+            if (filled($data[$key] ?? null)) {
+                $data[$key] = CarbonImmutable::parse($data[$key])->utc()->toIso8601ZuluString();
+            }
+        }
+
+        return $data;
     }
 
     private function checkDates(mixed $start, mixed $due): void

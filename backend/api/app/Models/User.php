@@ -21,7 +21,7 @@ class User extends Authenticatable
 
     protected $fillable = ['name', 'email', 'phone', 'password', 'preferred_language', 'status'];
 
-    protected $hidden = ['password', 'remember_token'];
+    protected $hidden = ['password', 'remember_token', 'two_factor_secret', 'two_factor_recovery_codes'];
 
     /** @var array<string, list<string>> cache des permissions par institution */
     private array $permissionCache = [];
@@ -33,6 +33,9 @@ class User extends Authenticatable
             'last_login_at' => 'datetime',
             'password' => 'hashed',
             'is_platform_admin' => 'boolean',
+            'two_factor_secret' => 'encrypted',
+            'two_factor_recovery_codes' => 'encrypted:array',
+            'two_factor_confirmed_at' => 'datetime',
         ];
     }
 
@@ -55,6 +58,18 @@ class User extends Authenticatable
     public function roleAssignments(): HasMany
     {
         return $this->hasMany(UserRole::class);
+    }
+
+    public function hasTwoFactor(): bool
+    {
+        return $this->two_factor_confirmed_at !== null && $this->two_factor_secret !== null;
+    }
+
+    /** Comptes privilégiés (§29.2) : la double authentification leur est demandée. */
+    public function isPrivileged(): bool
+    {
+        return $this->is_platform_admin
+            || array_intersect(config('cousp.mfa_privileged_permissions', []), $this->permissionCodes()) !== [];
     }
 
     public function isActive(): bool

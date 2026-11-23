@@ -19,7 +19,7 @@ class Task extends Model
     use BelongsToInstitution, HasUuids, SoftDeletes;
 
     protected $fillable = [
-        'institution_id', 'organization_unit_id', 'parent_task_id', 'health_event_id', 'recommendation_id', 'reference', 'title', 'description',
+        'institution_id', 'organization_unit_id', 'parent_task_id', 'health_event_id', 'recommendation_id', 'recurrence_id', 'occurrence_on', 'reference', 'title', 'description',
         'expected_result', 'task_type', 'category', 'priority', 'status', 'approval_status',
         'approval_template_id', 'created_by', 'start_at', 'due_at', 'estimated_hours', 'progress',
     ];
@@ -38,6 +38,7 @@ class Task extends Model
             'due_soon_notified_at' => 'datetime',
             'overdue_notified_at' => 'datetime',
             'estimated_hours' => 'decimal:2',
+            'occurrence_on' => 'date',
             'progress' => 'integer',
         ];
     }
@@ -76,6 +77,11 @@ class Task extends Model
     public function recommendation(): BelongsTo
     {
         return $this->belongsTo(Recommendation::class);
+    }
+
+    public function recurrence(): BelongsTo
+    {
+        return $this->belongsTo(TaskRecurrence::class);
     }
 
     public function mission(): HasOne

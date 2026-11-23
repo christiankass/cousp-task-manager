@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { API_URL, TOKEN_COOKIE } from "@/lib/session";
+import { API_URL, clientIpHeaders } from "@/lib/session";
+import { withSessionCookie } from "@/lib/sessionCookie";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -9,6 +10,7 @@ export async function POST(request: NextRequest) {
       "Content-Type": "application/json",
       Accept: "application/json",
       "Accept-Language": request.headers.get("accept-language") ?? "fr",
+      ...clientIpHeaders(request),
     },
     body: JSON.stringify({ ...body, device_name: "web" }),
   });
@@ -18,14 +20,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(payload, { status: upstream.status });
   }
 
-  const { access_token, expires_at, ...rest } = payload.data;
-  const response = NextResponse.json({ ...payload, data: rest });
-  response.cookies.set(TOKEN_COOKIE, access_token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
-    path: "/",
-    expires: new Date(expires_at),
-  });
-  return response;
+  // Compte protégé par un code : pas encore de jeton, le navigateur passe à l'étape du code.
+  if (payload.data?.mfa_required) {
+    return NextResponse.json(payload);
+  }
+
+  return withSessionCookie(payload);
 }

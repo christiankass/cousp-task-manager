@@ -8,11 +8,12 @@ import { useI18n, type MessageKey } from "@/lib/i18n";
 import { can, useMe } from "./MeProvider";
 import { LanguageSwitch } from "./LanguageSwitch";
 
-/** Menu de l'application (§11). Les entrées des lots suivants sont affichées comme « bientôt disponibles ». */
+/** Menu de l'application (§11). Les entrées hors V1 sont affichées comme « bientôt disponibles ». */
 const MENU: { key: MessageKey; href?: string; permissions?: string[] }[] = [
   { key: "dashboard", href: "/" },
   { key: "tasks", href: "/taches" },
-  { key: "planning" },
+  { key: "recurring", href: "/taches/recurrentes" },
+  { key: "planning", href: "/planification" },
   { key: "users", href: "/utilisateurs", permissions: ["users.view", "users.manage"] },
   { key: "organisation", href: "/organisation", permissions: ["org_units.view", "org_units.manage"] },
   { key: "meetings", href: "/reunions" },
@@ -20,10 +21,18 @@ const MENU: { key: MessageKey; href?: string; permissions?: string[] }[] = [
   { key: "missions", href: "/missions" },
   { key: "notifications", href: "/notifications" },
   { key: "documents" },
-  { key: "reports" },
+  { key: "reports", href: "/rapports", permissions: ["reports.view", "reports.export"] },
   { key: "audit" },
   { key: "settings" },
+  { key: "security", href: "/securite" },
 ];
+
+/** Entrée active : celle dont l'adresse correspond le plus précisément à la page affichée. */
+function activeHref(pathname: string): string | undefined {
+  return MENU.map((m) => m.href)
+    .filter((h): h is string => !!h && (h === "/" ? pathname === "/" : pathname === h || pathname.startsWith(`${h}/`)))
+    .sort((a, b) => b.length - a.length)[0];
+}
 
 export function Sidebar() {
   const { t } = useI18n();
@@ -57,7 +66,7 @@ export function Sidebar() {
               key={item.key}
               href={item.href}
               className={`flex items-center justify-between rounded px-3 py-2 text-sm ${
-                (item.href === "/" ? pathname === "/" : pathname.startsWith(item.href)) ? "bg-white/20 font-semibold" : "hover:bg-white/10"
+                item.href === activeHref(pathname) ? "bg-white/20 font-semibold" : "hover:bg-white/10"
               }`}
             >
               {t(item.key)}

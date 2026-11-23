@@ -3,6 +3,7 @@
 use App\Http\Middleware\IsolateTenant;
 use App\Http\Middleware\RequirePermission;
 use App\Http\Middleware\RequirePlatformAdmin;
+use App\Http\Middleware\RequireTwoFactor;
 use App\Http\Middleware\ResolveInstitution;
 use App\Http\Middleware\SetLocale;
 use App\Support\ApiResponse;
@@ -29,10 +30,18 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->api(prepend: [IsolateTenant::class, SetLocale::class]);
 
+        // Le serveur web (Next.js) relaie les appels du navigateur : on lui fait confiance pour
+        // transmettre l'adresse IP réelle, uniquement depuis le réseau privé des conteneurs.
+        $middleware->trustProxies(
+            at: array_filter(array_map('trim', explode(',', (string) env('TRUSTED_PROXIES', '127.0.0.1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16')))),
+            headers: Request::HEADER_X_FORWARDED_FOR,
+        );
+
         $middleware->alias([
             'institution' => ResolveInstitution::class,
             'permission' => RequirePermission::class,
             'platform.admin' => RequirePlatformAdmin::class,
+            'mfa' => RequireTwoFactor::class,
         ]);
 
         // Le contexte institutionnel doit exister avant la résolution des modèles de route,

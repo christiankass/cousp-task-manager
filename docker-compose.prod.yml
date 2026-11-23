@@ -1,0 +1,132 @@
+# Mise en production de COUSP Task Manager (un serveur Linux avec Docker).
+# Guide pas à pas : documentation/deploiement/guide-deploiement.md
+#
+#   cp infrastructure/production/env.production.example .env.production   # puis compléter
+#   docker compose -f docker-compose.prod.yml --env-file .env.production up -d --build
+
+x-api-env: &api-env
+  APP_ENV: production
+  APP_DEBUG: "false"
+  DB_CONNECTION: pgsql
+  DB_HOST: postgres
+  DB_PORT: "5432"
+  DB_DATABASE: ${POSTGRES_DB:-cousp_task}
+  DB_USERNAME: ${APP_DB_USER:-cousp_app}
+  DB_PASSWORD: ${APP_DB_PASSWORD:?APP_DB_PASSWORD manquant}
+  REDIS_HOST: redis
+  REDIS_PASSWORD: ${REDIS_PASSWORD:?REDIS_PASSWORD manquant}
+  CACHE_STORE: redis
+  QUEUE_CONNECTION: redis
+  SESSION_DRIVER: redis
+  LOG_CHANNEL: stderr
+  TENANCY_RLS_ENABLED: "true"
+
+x-api: &api
+  build:
+    context: .
+    dockerfile: infrastructure/docker/api.prod.Dockerfile
+  image: cousp/api:${APP_VERSION:-latest}
+  restart: unless-stopped
+  env_file: .env.production
+  environment:
+    <<: *api-env
+  volumes:
+    - api-storage:/var/www/html/storage
+  depends_on:
+    postgres: { condition: service_healthy }
+    redis: { condition: service_healthy }
+  networks: [internal]
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-cousp_task}
+      POSTGRES_USER: ${POSTGRES_ADMIN_USER:-cousp_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_ADMIN_PASSWORD:?POSTGRES_ADMIN_PASSWORD manquant}
+      APP_DB_USER: ${APP_DB_USER:-cousp_app}
+      APP_DB_PASSWORD: ${APP_DB_PASSWORD:?APP_DB_PASSWORD manquant}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./infrastructure/production/postgres/10-app-role.sh:/docker-entrypoint-initdb.d/10-app-role.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
+      interval: 10s
+      retries: 10
+    networks: [internal]
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["sh", "-c", "exec redis-server --requirepass \"$$REDIS_PASSWORD\" --appendonly yes"]
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?REDIS_PASSWORD manquant}
+    volumes: [redis-data:/data]
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a \"$$REDIS_PASSWORD\" --no-auth-warning ping | grep -q PONG"]
+      interval: 10s
+      retries: 10
+    networks: [internal]
+
+  # API (php-fpm). C'est le seul conteneur qui applique les migrations au démarrage.
+  api:
+    <<: *api
+    environment:
+      <<: *api-env
+      RUN_MIGRATIONS: "true"
+
+  # Tâches planifiées : retards et échéances (toutes les 15 min), tâches récurrentes (toutes les heures).
+  scheduler:
+    <<: *api
+    command: ["php", "artisan", "schedule:work"]
+    depends_on: [api]
+
+  # Envoi des e-mails et des notifications push.
+  queue:
+    <<: *api
+    command: ["php", "artisan", "queue:work", "--tries=3", "--max-time=3600"]
+    depends_on: [api]
+
+  web:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/web.Dockerfile
+    image: cousp/web:${APP_VERSION:-latest}
+    restart: unless-stopped
+    environment:
+      # Entrée interne de Nginx : le web relaie les appels du navigateur vers l'API.
+      API_URL: http://nginx:8080/api/v1
+    networks: [internal]
+
+  nginx:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    ports: ["80:80", "443:443"]
+    environment:
+      APP_DOMAIN: ${APP_DOMAIN:?APP_DOMAIN manquant}
+      NGINX_ENVSUBST_FILTER: APP_DOMAIN
+    volumes:
+      - ./infrastructure/production/nginx/cousp.conf.template:/etc/nginx/templates/default.conf.template:ro
+      - ./infrastructure/production/nginx/laravel-public.conf:/etc/nginx/snippets/laravel-public.conf:ro
+      - ./infrastructure/production/certbot/conf:/etc/letsencrypt:ro
+      - ./infrastructure/production/certbot/www:/var/www/certbot:ro
+    depends_on: [api, web]
+    networks: [internal]
+
+  # Renouvelle le certificat HTTPS (Let's Encrypt) deux fois par jour.
+  certbot:
+    image: certbot/certbot:v2.11.0
+    restart: unless-stopped
+    entrypoint: ["/bin/sh", "-c", "trap exit TERM; while :; do certbot renew --webroot -w /var/www/certbot --quiet; sleep 12h; done"]
+    volumes:
+      - ./infrastructure/production/certbot/conf:/etc/letsencrypt
+      - ./infrastructure/production/certbot/www:/var/www/certbot
+
+volumes:
+  pgdata:
+  redis-data:
+  api-storage:
+
+networks:
+  internal:
