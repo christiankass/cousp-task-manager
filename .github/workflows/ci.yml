@@ -65,3 +65,23 @@ jobs:
           cache-dependency-path: apps/mobile/package-lock.json
       - run: npm ci
       - run: npm run typecheck
+
+  # Vérifie que la démonstration Docker (docker-compose.demo.yml) démarre et qu'on peut se connecter.
+  demo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Démarrer la démonstration
+        run: docker compose -f docker-compose.demo.yml up -d --build --wait --wait-timeout 600
+      - name: Connexion par le web et par l'API
+        run: |
+          curl -fsS http://localhost:8080/up >/dev/null
+          curl -fsS http://localhost:8080/login >/dev/null
+          curl -fsS -X POST http://localhost:8080/api/auth/login -H 'Content-Type: application/json' \
+            -d '{"email":"coordonnateur@cousp.local","password":"Cousp@2026!"}' -c cookies.txt | grep -q '"success":true'
+          curl -fsS http://localhost:8080/api/proxy/tasks -b cookies.txt | grep -q '"success":true'
+          curl -fsS "http://localhost:8080/api/download/reports/tasks?format=pdf" -b cookies.txt -o rapport.pdf
+          head -c 4 rapport.pdf | grep -q '%PDF'
+      - name: Journaux en cas d'échec
+        if: failure()
+        run: docker compose -f docker-compose.demo.yml logs --tail=200

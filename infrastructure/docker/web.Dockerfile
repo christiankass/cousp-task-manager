@@ -5,7 +5,8 @@ COPY apps/web/package.json apps/web/package-lock.json ./
 RUN npm ci
 COPY apps/web/ ./
 ENV NEXT_TELEMETRY_DISABLED=1
-RUN npm run build
+# Le dossier public peut être vide (donc absent du dépôt).
+RUN mkdir -p public && npm run build
 
 FROM node:20-alpine
 WORKDIR /app

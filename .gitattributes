@@ -1,0 +1,9 @@
+# Les scripts lancés dans les conteneurs Linux doivent garder des fins de ligne Unix,
+# même quand le dépôt est récupéré sous Windows.
+*.sh text eol=lf
+*.conf text eol=lf
+*.template text eol=lf
+*.Dockerfile text eol=lf
+Dockerfile text eol=lf
+# Les scripts Windows gardent des fins de ligne Windows.
+*.bat text eol=crlf
