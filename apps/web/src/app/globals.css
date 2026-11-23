@@ -7,3 +7,12 @@
 body {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
+
+@layer components {
+  .btn {
+    @apply rounded-md bg-[var(--brand)] px-3 py-1.5 text-sm font-medium text-white hover:opacity-90;
+  }
+  .btn-secondary {
+    @apply rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-100;
+  }
+}

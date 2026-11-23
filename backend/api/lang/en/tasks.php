@@ -1,0 +1,32 @@
+<?php
+
+return [
+    'status' => [
+        'todo' => 'To do', 'in_progress' => 'In progress', 'on_hold' => 'Pending',
+        'submitted' => 'Submitted for approval', 'validated' => 'Approved', 'rejected' => 'To correct',
+    ],
+    'priority' => ['low' => 'Low', 'normal' => 'Normal', 'high' => 'High', 'critical' => 'Critical'],
+    'type' => ['administrative' => 'Administrative', 'operational' => 'Operational'],
+    'approval' => ['none' => 'Not submitted', 'pending' => 'Awaiting approval', 'approved' => 'Approved', 'rejected' => 'Rejected'],
+    'only_responsible_can_submit' => 'Only the lead assignee can submit the task.',
+    'cannot_submit_from' => 'A “:status” task cannot be submitted.',
+    'no_approver' => 'No approver could be determined for this task. Set a unit manager or configure an approval circuit.',
+    'not_awaiting_approval' => 'This task is not awaiting approval.',
+    'not_your_approval' => 'You are not the approver of the current step.',
+    'cannot_assign_in_unit' => 'You cannot assign tasks in this unit.',
+    'cannot_create_in_unit' => 'You cannot create tasks in this unit.',
+    'parent_closed' => 'The parent task is already approved.',
+    'due_change_reason_required' => 'A justification is required to change the due date.',
+    'new_due_date' => 'New due date: :due.',
+    'invalid_transition' => 'Cannot move from “:from” to “:to”.',
+    'on_hold_reason_required' => 'Please give the reason for putting the task on hold.',
+    'cannot_remove_responsible' => 'The lead assignee cannot be removed; delegate the task to someone else.',
+    'cannot_delete_validated' => 'An approved task cannot be deleted.',
+    'task_closed' => 'This task is approved and can no longer be changed.',
+    'exactly_one_responsible' => 'A task must have exactly one lead assignee.',
+    'due_before_start' => 'The due date cannot be before the start date.',
+    'not_assignee' => 'Only people assigned to the task can work on it.',
+    'submitted' => 'Task submitted for approval',
+    'approved' => 'Approval recorded',
+    'rejected' => 'Corrections requested',
+];
