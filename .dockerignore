@@ -1,0 +1,17 @@
+.git
+**/node_modules
+**/.next
+backend/api/vendor
+backend/api/.env
+backend/api/.env.*
+!backend/api/.env.example
+backend/api/storage/logs/*
+backend/api/storage/framework/cache/*
+backend/api/storage/framework/sessions/*
+backend/api/storage/framework/views/*
+backend/api/storage/app/private/*
+apps/mobile
+apps/web/.env*
+.env.production
+infrastructure/production/certbot
+documentation

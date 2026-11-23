@@ -22,8 +22,8 @@ documentation/     Cahier des charges et conception
 | 0 | Socle : institutions, structures, utilisateurs, rôles, connexion, isolation, audit, FR/EN | ✅ |
 | 1 | Tâches, validation hiérarchique, retards, notifications, tableau de bord | ✅ |
 | 2 | Application mobile (Expo) : mes tâches, validation, photos, notifications push | ✅ |
-| 3 | Réunions et recommandations converties en tâches, urgences sanitaires (actions, sitreps, clôture), missions de terrain | en revue |
-| 4 | Rapports PDF/Excel, calendrier, Kanban, MFA, déploiement | à faire |
+| 3 | Réunions et recommandations converties en tâches, urgences sanitaires (actions, sitreps, clôture), missions de terrain | ✅ |
+| 4 | Rapports PDF/Excel, calendrier, Kanban, tâches récurrentes, connexion en deux étapes, mise en production | en revue |
 
 ## Démarrage en local
 
@@ -64,11 +64,14 @@ Comptes de démonstration (mot de passe `Cousp@2026!`) :
 
 ## Tâches planifiées
 
-Le repérage des retards et des échéances proches tourne toutes les 15 minutes :
+| Commande | Fréquence | Rôle |
+|---|---|---|
+| `tasks:detect-deadlines` | toutes les 15 min | Repère les retards et les échéances proches, prévient les personnes concernées |
+| `tasks:generate-recurring` | toutes les heures | Crée les tâches des séries récurrentes arrivées à leur date |
 
 ```bash
-php artisan schedule:work          # en développement
-php artisan tasks:detect-deadlines # exécution manuelle
+php artisan schedule:work            # en développement : lance les deux commandes à leur rythme
+php artisan tasks:generate-recurring # exécution manuelle
 ```
 
 Les e-mails partent par la file d'attente (`php artisan queue:work`). En développement,
@@ -84,6 +87,13 @@ php artisan test
 Les tests utilisent PostgreSQL (base `cousp_task_test`) pour vérifier aussi l'isolation
 par Row Level Security.
 
+## Mise en production
+
+Tout est décrit, pas à pas et en français, dans
+[`documentation/deploiement/guide-deploiement.md`](documentation/deploiement/guide-deploiement.md) :
+serveur Docker (`docker-compose.prod.yml`), HTTPS, premier administrateur
+(`php artisan cousp:create-institution`), sauvegardes chiffrées quotidiennes et test de restauration.
+
 ## Principes de sécurité du socle
 
 - **Isolation des institutions** sur trois niveaux : le jeton de connexion est lié à une
@@ -95,3 +105,5 @@ par Row Level Security.
 - Verrouillage après 5 échecs de connexion (15 min), historique des connexions,
   politique de mots de passe robustes, jetons expirant après 8 h, cookie httpOnly côté web.
 - Journal d'audit en ajout seul, protégé par un déclencheur PostgreSQL.
+- Connexion en deux étapes (codes TOTP et codes de secours), exigible pour les comptes à
+  privilèges avec `MFA_ENFORCE_PRIVILEGED=true`.

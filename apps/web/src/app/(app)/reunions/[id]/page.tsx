@@ -9,6 +9,8 @@ import {
   type MeetingDetail, type Recommendation,
 } from "@/lib/coordination";
 import { useI18n } from "@/lib/i18n";
+import { DownloadButton } from "@/lib/lot4";
+import { can, useMe } from "@/components/MeProvider";
 
 const ATTENDANCE = ["invited", "present", "absent", "excused"];
 
@@ -16,6 +18,7 @@ export default function MeetingPage({ params }: { params: Promise<{ id: string }
   const { id } = use(params);
   const { t, locale } = useI18n();
   const { c, cx } = useC();
+  const me = useMe();
   const [meeting, setMeeting] = useState<MeetingDetail | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [flash, setFlash] = useState<string | null>(null);
@@ -65,7 +68,15 @@ export default function MeetingPage({ params }: { params: Promise<{ id: string }
             )}
           </div>
         </div>
-        <button className="btn-secondary no-print" onClick={() => window.print()}>{c("print")}</button>
+        <div className="no-print flex flex-wrap gap-2">
+          {(meeting.can.manage || can(me, "reports.export")) && (
+            <>
+              <DownloadButton path={`reports/meetings/${meeting.id}?format=pdf`} label="PDF" />
+              <DownloadButton path={`reports/meetings/${meeting.id}?format=xlsx`} label="Excel" />
+            </>
+          )}
+          <button className="btn-secondary" onClick={() => window.print()}>{c("print")}</button>
+        </div>
       </div>
 
       {flash && <div className="no-print rounded-md bg-emerald-50 p-2 text-sm text-emerald-800">{flash}</div>}

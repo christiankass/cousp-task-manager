@@ -6,11 +6,15 @@ import { OverdueBadge, StatusBadge } from "@/components/TaskBadges";
 import { ApiError, api, formatDate } from "@/lib/api";
 import { Card, Field, Pill, SeverityBadge, UnitSelect, UserSelect, eventTone, missionTone, toIso, useC, useDirectory, type HealthEventDetail } from "@/lib/coordination";
 import { useI18n } from "@/lib/i18n";
+import { DownloadButton, useL } from "@/lib/lot4";
+import { can, useMe } from "@/components/MeProvider";
 
 export default function HealthEventPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const { t, locale } = useI18n();
   const { c, cx } = useC();
+  const me = useMe();
+  const { l } = useL();
   const [event, setEvent] = useState<HealthEventDetail | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [panel, setPanel] = useState<"" | "action" | "sitrep" | "close">("");
@@ -53,14 +57,19 @@ export default function HealthEventPage({ params }: { params: Promise<{ id: stri
             {event.coordinator && ` · ${c("coordinator")} : ${event.coordinator.name}`}
           </div>
         </div>
+        <div className="flex flex-wrap gap-2">
+          {(event.can.manage || can(me, "reports.export")) && (
+            <DownloadButton path={`reports/health-events/${event.id}`} label={l("eventReportPdf")} />
+          )}
         {manage && (
-          <div className="flex flex-wrap gap-2">
+          <>
             <button className="btn" onClick={() => setPanel(panel === "action" ? "" : "action")}>+ {c("addAction")}</button>
             <button className="btn-secondary" onClick={() => setPanel(panel === "sitrep" ? "" : "sitrep")}>+ {c("addSitrep")}</button>
             <Link href={`/missions?event=${event.id}`} className="btn-secondary">+ {c("newMission")}</Link>
             <button className="btn-secondary" onClick={() => setPanel(panel === "close" ? "" : "close")}>{c("closeEvent")}</button>
-          </div>
+          </>
         )}
+        </div>
       </div>
 
       {error && <div className="rounded-md bg-red-50 p-2 text-sm text-red-700">{error}</div>}

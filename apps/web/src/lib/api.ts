@@ -23,6 +23,10 @@ export async function api<T>(path: string, init: RequestInit = {}): Promise<ApiR
     window.location.href = "/login";
   }
   const body = response.status === 204 ? ({ success: true } as ApiResult<T>) : await response.json();
+  // Compte à privilèges sans double authentification alors que l'institution l'exige.
+  if (response.status === 403 && body?.code === "MFA_SETUP_REQUIRED" && typeof window !== "undefined" && !window.location.pathname.startsWith("/securite")) {
+    window.location.href = "/securite";
+  }
   if (!response.ok) throw new ApiError(response.status, body);
   return body;
 }
@@ -52,7 +56,13 @@ export type OrganizationUnit = {
   children?: OrganizationUnit[];
 };
 
-export type Me = { user: User; institution: Institution; permissions: string[]; is_platform_admin: boolean };
+export type Me = {
+  user: User;
+  institution: Institution;
+  permissions: string[];
+  is_platform_admin: boolean;
+  security?: { mfa_enabled: boolean; mfa_recommended: boolean; mfa_enforced: boolean };
+};
 
 export type TaskStatus = "todo" | "in_progress" | "on_hold" | "submitted" | "validated" | "rejected";
 

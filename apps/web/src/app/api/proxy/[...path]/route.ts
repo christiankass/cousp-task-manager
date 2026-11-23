@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { API_URL, getToken } from "@/lib/session";
+import { API_URL, clientIpHeaders, getToken } from "@/lib/session";
 
 /** Relais vers l'API Laravel : ajoute le jeton du cookie httpOnly. */
 async function forward(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
@@ -18,6 +18,7 @@ async function forward(request: NextRequest, { params }: { params: Promise<{ pat
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
       "Accept-Language": request.headers.get("accept-language") ?? "fr",
+      ...clientIpHeaders(request),
     },
     body: hasBody ? await request.text() : undefined,
   });
