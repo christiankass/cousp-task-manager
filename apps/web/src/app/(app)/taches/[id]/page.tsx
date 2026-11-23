@@ -206,6 +206,16 @@ export default function TaskDetailPage({ params }: { params: Promise<{ id: strin
             <Row label={t("startAt")} value={formatDate(task.start_at, locale)} />
             <Row label={t("dueAt")} value={formatDate(task.due_at, locale)} danger={task.is_overdue} />
             <Row label={t("createdBy")} value={task.created_by?.name} />
+            {(task.health_event || task.recommendation || task.mission) && (
+              <div className="flex justify-between gap-3">
+                <span className="text-slate-500">{t("linkedTo")}</span>
+                <span className="flex flex-col items-end gap-0.5 text-right">
+                  {task.mission && <Link href={`/missions/${task.mission.id}`} className="text-[var(--brand)] hover:underline">{task.mission.reference}</Link>}
+                  {task.recommendation && <Link href={`/reunions/${task.recommendation.meeting_id}`} className="text-[var(--brand)] hover:underline">{task.recommendation.reference}</Link>}
+                  {task.health_event && <Link href={`/urgences/${task.health_event.id}`} className="text-[var(--brand)] hover:underline">{task.health_event.title}</Link>}
+                </span>
+              </div>
+            )}
           </section>
 
           {workflows.length > 0 && (

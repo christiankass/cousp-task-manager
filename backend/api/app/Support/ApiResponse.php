@@ -24,6 +24,16 @@ class ApiResponse
             ];
         }
 
+        if ($data instanceof LengthAwarePaginator) {
+            $meta += ['pagination' => [
+                'page' => $data->currentPage(),
+                'per_page' => $data->perPage(),
+                'total' => $data->total(),
+                'last_page' => $data->lastPage(),
+            ]];
+            $data = $data->items();
+        }
+
         return response()->json([
             'success' => true,
             'message' => $message ?? __('messages.ok'),

@@ -11,7 +11,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RbacSeeder::class);
 
         if (! app()->isProduction()) {
-            $this->call([DemoSeeder::class, DemoTaskSeeder::class]);
+            $this->call([DemoSeeder::class, DemoTaskSeeder::class, DemoCoordinationSeeder::class]);
         }
     }
 }

@@ -4,9 +4,13 @@ use App\Http\Controllers\Api\V1\ApprovalTemplateController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\DashboardController;
 use App\Http\Controllers\Api\V1\DeviceController;
+use App\Http\Controllers\Api\V1\HealthEventController;
 use App\Http\Controllers\Api\V1\InstitutionController;
+use App\Http\Controllers\Api\V1\MeetingController;
+use App\Http\Controllers\Api\V1\MissionController;
 use App\Http\Controllers\Api\V1\NotificationController;
 use App\Http\Controllers\Api\V1\OrganizationUnitController;
+use App\Http\Controllers\Api\V1\RecommendationController;
 use App\Http\Controllers\Api\V1\TaskAttachmentController;
 use App\Http\Controllers\Api\V1\TaskCommentController;
 use App\Http\Controllers\Api\V1\TaskController;
@@ -83,6 +87,39 @@ Route::prefix('v1')->group(function () {
         Route::get('approval-templates', [ApprovalTemplateController::class, 'index'])->middleware('permission:workflow.manage,tasks.create');
         Route::post('approval-templates', [ApprovalTemplateController::class, 'store'])->middleware('permission:workflow.manage');
         Route::put('approval-templates/{id}', [ApprovalTemplateController::class, 'update'])->whereUuid('id')->middleware('permission:workflow.manage');
+
+        Route::prefix('health-events')->whereUuid('id')->group(function () {
+            Route::get('/', [HealthEventController::class, 'index']);
+            Route::post('/', [HealthEventController::class, 'store']);
+            Route::get('{id}', [HealthEventController::class, 'show']);
+            Route::put('{id}', [HealthEventController::class, 'update']);
+            Route::post('{id}/close', [HealthEventController::class, 'close']);
+            Route::post('{id}/situation-reports', [HealthEventController::class, 'addSituationReport']);
+            Route::post('{id}/tasks', [HealthEventController::class, 'addTask']);
+        });
+
+        Route::prefix('meetings')->whereUuid(['id', 'participantId'])->group(function () {
+            Route::get('/', [MeetingController::class, 'index']);
+            Route::post('/', [MeetingController::class, 'store']);
+            Route::get('{id}', [MeetingController::class, 'show']);
+            Route::put('{id}', [MeetingController::class, 'update']);
+            Route::post('{id}/participants', [MeetingController::class, 'addParticipants']);
+            Route::patch('{id}/participants/{participantId}', [MeetingController::class, 'updateParticipant']);
+            Route::delete('{id}/participants/{participantId}', [MeetingController::class, 'removeParticipant']);
+            Route::post('{id}/recommendations', [MeetingController::class, 'addRecommendation']);
+        });
+
+        Route::get('recommendations', [RecommendationController::class, 'index']);
+        Route::put('recommendations/{id}', [RecommendationController::class, 'update'])->whereUuid('id');
+        Route::post('recommendations/{id}/convert-to-task', [RecommendationController::class, 'convert'])->whereUuid('id');
+
+        Route::prefix('missions')->whereUuid('id')->group(function () {
+            Route::get('/', [MissionController::class, 'index']);
+            Route::post('/', [MissionController::class, 'store']);
+            Route::get('{id}', [MissionController::class, 'show']);
+            Route::post('{id}/members', [MissionController::class, 'addMember']);
+            Route::post('{id}/report', [MissionController::class, 'report']);
+        });
 
         Route::get('notifications', [NotificationController::class, 'index']);
         Route::get('notifications/unread-count', [NotificationController::class, 'unreadCount']);
